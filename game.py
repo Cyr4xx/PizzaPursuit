@@ -14,9 +14,12 @@ class Game:  # Turns the game code into an object.
 
         self.clock = pygame.time.Clock()  # Restricts framerate to a fixed
         # amount.
+        self.img = pygame.image.load("data/images/clouds/cloud_1.png")
 
     def run(self):
         while True:
+            self.screen.blit(self.img, (100, 200))
+
             for event in pygame.event.get():  # Gets user input.
                 if event.type == pygame.QUIT:  # Allows user to exit out of
                     # the game.
