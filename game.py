@@ -1,8 +1,10 @@
 import sys
+
 import pygame
 
 pygame.init()
 
+pygame.display.set_caption("Pizza Pursuit: Chef's Revenge")
 screen = pygame.display.set_mode((640, 480))  # Creates game window.
 
 clock = pygame.time.Clock()  # Restricts framerate to a fixed amount.
