@@ -22,9 +22,10 @@ class Game:  # Turns the game code into an object.
 
     def run(self):
         while True:
+            self.window.fill((14, 219, 248))
+
             self.img_pos[1] += (self.movement[1] - self.movement[0])*5
-            self.window.blit(self.img,
-                             self.img_pos)  # Creates a cloud collage.
+            self.window.blit(self.img, self.img_pos)  # Creates a cloud collage
 
             for event in pygame.event.get():  # Gets user input.
                 if event.type == pygame.QUIT:  # Allows user to exit out of
