@@ -14,7 +14,7 @@ class Game:  # Turns the game code into an object.
 
         self.clock = pygame.time.Clock()  # Restricts framerate to a fixed
         # amount.
-        self.img = pygame.image.load("data/images/clouds/cloud_1.png")
+        self.img = pygame.image.load("data/images/clouds/cloud_1.png") #U need to add the location of a png u own
 
     def run(self):
         while True:
