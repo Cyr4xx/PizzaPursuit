@@ -1,6 +1,8 @@
 import sys
+
 import pygame
 
+from scripts.Entities import PhysicsEntity
 
 class Game:  # Turns the game code into an object.
     def __init__(self):
