@@ -2,7 +2,7 @@ import sys
 
 import pygame
 
-from scripts.Entities import PhysicsEntity
+from Scripts.Entities import PhysicsEntity
 
 class Game:  # Turns the game code into an object.
     def __init__(self):
@@ -24,15 +24,15 @@ class Game:  # Turns the game code into an object.
         while True:
             self.window.fill((14, 219, 248))
 
-            self.img_pos[1] += (self.movement[1] - self.movement[0]) * 5
-            self.window.blit(self.img, self.img_pos)  # Creates a cloud collage
-
             img_r = pygame.Rect(self.img_pos[0], self.img_pos[1], self.img.get_width(), self.img.get_height())# Makes a rectangle which matches the cloud to create collision.
             if img_r.colliderect(self.collision_area):
                 pygame.draw.rect(self.window, (0, 100, 255), self.collision_area)
             else:
                 pygame.draw.rect(self.window, (0, 50, 155),
-                                 self.collision_area) # draws the collision rectangle
+                                 self.collision_area) # draws the collision rectangle.
+
+            self.img_pos[1] += (self.movement[1] - self.movement[0]) * 5
+            self.window.blit(self.img, self.img_pos)  # Creates a cloud collage
 
             for event in pygame.event.get():  # Gets user input.
                 if event.type == pygame.QUIT:  # Allows user to exit out of
