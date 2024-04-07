@@ -1,6 +1,5 @@
-import sys
-
 import pygame
+import sys
 
 from Scripts.Entities import PhysicsEntity
 
@@ -12,8 +11,24 @@ class Game:  # Turns the game code into an object.
         # window. screen = window
         self.timer = pygame.time.Clock()  # Restricts framerate to a fixed
         # amount. clock = timer
+        self.bg = pygame.image.load("data/images/bg.png")
+     def main_menu(self):
+         pygame.display.set_caption("Pizza Pursuit: Chef's Revenge")
+
+         while True:
+             self.window.blit(self.bg, (0,0))
+
+             menu_mouse_pos = pygame.mouse.get_pos()
+
+             menu_text = get_font(100).render.("Pizza Pursuit", True, "#b68f40")
+             menu_rect = menu_text.get_rect(center=(640, 100))
+
+             play_button = Button()
+            
+
+
         self.img = pygame.image.load("data/images/clouds/cloud_1.png")
-        self.img.set_colorkey((0, 0, 0)) # Creates transparency in the image
+        self.img.set_colorkey((0, 0, 0))  # Creates transparency in the image
 
         self.img_pos = [160, 260]  # Cloud position.
         self.movement = [False, False]  # Updates cloud movement depending on
@@ -24,12 +39,15 @@ class Game:  # Turns the game code into an object.
         while True:
             self.window.fill((14, 219, 248))
 
-            img_r = pygame.Rect(self.img_pos[0], self.img_pos[1], self.img.get_width(), self.img.get_height())# Makes a rectangle which matches the cloud to create collision.
+            img_r = pygame.Rect(self.img_pos[0], self.img_pos[1],
+                                self.img.get_width(),
+                                self.img.get_height())  # Makes a rectangle which matches the cloud to create collision.
             if img_r.colliderect(self.collision_area):
-                pygame.draw.rect(self.window, (0, 100, 255), self.collision_area)
+                pygame.draw.rect(self.window, (0, 100, 255),
+                                 self.collision_area)
             else:
                 pygame.draw.rect(self.window, (0, 50, 155),
-                                 self.collision_area) # draws the collision rectangle.
+                                 self.collision_area)  # draws the collision rectangle.
 
             self.img_pos[1] += (self.movement[1] - self.movement[0]) * 5
             self.window.blit(self.img, self.img_pos)  # Creates a cloud collage
