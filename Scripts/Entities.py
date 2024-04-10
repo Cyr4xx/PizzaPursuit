@@ -4,12 +4,13 @@ class PhysicsEntity:  # Creates entity class group that handles the physics
         self.e_type = e_type  # Will use later, come back to this
         self.pos = list(pos)  # Where the entity will spawn
         self.size = size  # Size of the entity
+        self.velocity = [0, 0]  # Used to represent the rate of change in the position
 
-    def update(self, movement=(0,0), velocity=(0,0)):
+    def update(self, movement=(0, 0), velocity=(0, 0)):
         frame_movement = (movement[0] + self.velocity[0], movement[1] + self.velocity[1])
 
-        self.pos[0] += frame_movement
-        self.pos[1] += frame_movement
+        self.pos[0] += frame_movement[0]
+        self.pos[1] += frame_movement[1]
 
     def render(self, surf):
         surf.blit(self.game.assets['player'], self.pos)
