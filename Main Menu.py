@@ -4,7 +4,7 @@ from button import Button
 
 
 pygame.init()
-window = pygame.display.set_mode((1250, 675))  # Creates game
+window = pygame.display.set_mode((1250, 1022))  # Creates game
 # window. screen = window
 pygame.display.set_caption("Pizza Pursuit: Chef's Revenge")
 
@@ -79,7 +79,7 @@ def main_menu():
 
         menu_mouse_pos = pygame.mouse.get_pos()  # Tracks mouse position.
 
-        menu_text = get_font(100).render('Pizza Pursuit', True, "#b68f40")
+        menu_text = get_font(75).render('Pizza Pursuit', True, "#ffffff")
         menu_rect = menu_text.get_rect(
             center=(640, 100))  # SHows the Title of the game.
 
