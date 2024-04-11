@@ -24,7 +24,7 @@ def play():
 
         play_text = get_font(45).render("Play ", True, "White")
         play_rect = play_text.get_rect(center=(640, 260))
-        window.blit(play_text, play_rect)
+        window.blit(play_text, play_rect) # Creates the play button.
 
         play_back = Button(image=None, pos=(640, 460),
                            text_input="BACK", font=get_font(75),
@@ -69,12 +69,12 @@ def options():
                 if options_back.checkForInput(options_mouse_pos):
                     main_menu()
 
-            pygame.display.update()
+        pygame.display.update()
 
 
 def main_menu():
     while True:
-        window.blit(bg, (0, 0))
+        window.blit(bg, (0, 0)) # Places background photo.
 
         menu_mouse_pos = pygame.mouse.get_pos()  # Tracks mouse position.
 
@@ -109,11 +109,11 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.checkForInput(menu_mouse_pos):
                     play()
-            if options_button.checkForInput(menu_mouse_pos):
-                options()
-            if quit_button.checkForInput(menu_mouse_pos):
-                pygame.quit()
-                sys.exit()
+                if options_button.checkForInput(menu_mouse_pos):
+                    options()
+                if quit_button.checkForInput(menu_mouse_pos):
+                    pygame.quit()
+                    sys.exit()
 
         pygame.display.update()
 
