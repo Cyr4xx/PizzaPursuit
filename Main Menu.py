@@ -16,9 +16,10 @@ def get_font(size):
 # Takes the font file I provided, and allows utilization of the fonts for
 # the menu screen.
 
+
 def play():
     while True:
-        play_mouse_pos = pygame.mouse.get_pos() # Takes mouse position
+        play_mouse_pos = pygame.mouse.get_pos()  # Takes mouse position
 
         window.fill('black')
 
@@ -119,6 +120,3 @@ def main_menu():
 
 
 main_menu()
-
-
-
