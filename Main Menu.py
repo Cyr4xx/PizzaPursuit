@@ -16,49 +16,21 @@ def get_font(size):
 # Takes the font file I provided, and allows utilization of the fonts for
 # the menu screen.
 
-def play():
+def options():
     while True:
-        play_mouse_pos = pygame.mouse.get_pos() # Takes mouse position
+        options_mouse_pos = pygame.mouse.get_pos() # Takes mouse position
 
-        window.fill('black') # Creates the illusion of multiple screens by filling screen with black
-
-        play_text = get_font(45).render("Play ", True, "White")
-        play_rect = play_text.get_rect(center=(640, 260))
-        window.blit(play_text, play_rect) # When play is pressed shows the word play.
-
-        play_back = Button(image=None, pos=(640, 460), # Creates the back button when play is pressed
-                           text_input="BACK", font=get_font(75),
-                           base_color="White", hovering_color="Green")
-
-        play_back.changeColor(play_mouse_pos) # Changes button colour if hovering over play.
-        play_back.update(window)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if play_back.checkForInput(play_mouse_pos):
-                    main_menu()
-
-        pygame.display.update()
-
-
-def options(): # Same Code as play().
-    while True:
-        options_mouse_pos = pygame.mouse.get_pos()
-
-        window.fill('white')
+        window.fill('white') # Creates the illusion of multiple screens by filling screen with black
 
         options_text = get_font(45).render("Options.", True, "Black")
         options_rect = options_text.get_rect(center=(640, 260))
-        window.blit(options_text, options_rect)
+        window.blit(options_text, options_rect) # When options is pressed shows the word options.
 
-        options_back = Button(image=None, pos=(640, 460), text_input="Back",
+        options_back = Button(image=None, pos=(640, 460), text_input="Back", # Creates the back button when options is pressed
                               font=get_font(75), base_color="Black",
                               hovering_color="Green")
 
-        options_back.changeColor(options_mouse_pos)
+        options_back.changeColor(options_mouse_pos) # Changes button colour if hovering over back button.
         options_back.update(window)
 
         for event in pygame.event.get():
@@ -108,7 +80,7 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN: # When each button is clicked the following things will happen.
                 if play_button.checkForInput(menu_mouse_pos):
-                    play()
+                    from game import Game
                 if options_button.checkForInput(menu_mouse_pos):
                     options()
                 if quit_button.checkForInput(menu_mouse_pos):
