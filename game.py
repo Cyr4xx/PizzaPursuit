@@ -10,9 +10,11 @@ from Scripts.Entities import PhysicsEntity
 class Game:  # Turns the game code into an object.
     def __init__(self):
         pygame.init()
+
         self.window = pygame.display.set_mode((1250, 675))  # Creates game
         # window. screen = window
         self.display = pygame.Surface((320, 240))
+
         self.timer = pygame.time.Clock()  # Restricts framerate to a fixed
         # amount. clock = timer
         pygame.display.set_caption("Pizza Pursuit")
@@ -24,12 +26,16 @@ class Game:  # Turns the game code into an object.
 
         self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15))
 
+        #self.scroll = [0, 0] # Creating Camera to follow player
+
     def run(self):
         while True:
             self.display.fill((14, 219, 248))
 
+            # For self.tilemap add the offset ,offset=self.scroll)
+
             self.player.update((self.movement[1] - self.movement[0], 0))
-            self.player.render(self.display)
+            self.player.render(self.display) # add to brackets ,offset=self.scroll
 
             for event in pygame.event.get():  # Gets user input.
                 if event.type == pygame.QUIT:  # Allows user to exit out of

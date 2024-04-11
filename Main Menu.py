@@ -47,19 +47,19 @@ def play():
 
 def options():
     while True:
-        options_mouse_pos = pygame.mouse.get_pos()
+        options_mouse_pos = pygame.mouse.get_pos() # Takes mouse position
 
-        window.fill('white')
+        window.fill('white') # Creates the illusion of multiple screens by filling screen with black
 
         options_text = get_font(45).render("Options.", True, "Black")
         options_rect = options_text.get_rect(center=(640, 260))
-        window.blit(options_text, options_rect)
+        window.blit(options_text, options_rect) # When options is pressed shows the word options.
 
-        options_back = Button(image=None, pos=(640, 460), text_input="Back",
+        options_back = Button(image=None, pos=(640, 460), text_input="Back", # Creates the back button when options is pressed
                               font=get_font(75), base_color="Black",
                               hovering_color="Green")
 
-        options_back.changeColor(options_mouse_pos)
+        options_back.changeColor(options_mouse_pos) # Changes button colour if hovering over back button.
         options_back.update(window)
 
         for event in pygame.event.get():
@@ -92,13 +92,13 @@ def main_menu():
             image=pygame.image.load("data/Options Rect.png"), pos=(640, 400),
             text_input="OPTIONS", font=get_font(75), base_color="#d7fcd4",
             hovering_color="White")
-
+        # Places an options button.
         quit_button = Button(image=pygame.image.load("data/Quit Rect.png"),
                              pos=(640, 550),
                              text_input="QUIT", font=get_font(75),
                              base_color="#d7fcd4", hovering_color="White")
         window.blit(menu_text, menu_rect)
-
+        #Places a quit button
         for button in [play_button, options_button, quit_button]:
             button.changeColor(menu_mouse_pos)
             button.update(window)
@@ -107,9 +107,9 @@ def main_menu():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN: # When each button is clicked the following things will happen.
                 if play_button.checkForInput(menu_mouse_pos):
-                    play()
+                    from game import Game
                 if options_button.checkForInput(menu_mouse_pos):
                     options()
                 if quit_button.checkForInput(menu_mouse_pos):
