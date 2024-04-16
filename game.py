@@ -1,63 +1,65 @@
-import pygame
-
 import sys
 
-from Scripts.Utils import load_image
+import pygame
 
+from Scripts.Utils import load_image, load_images
 from Scripts.Entities import PhysicsEntity
+from Scripts.tilemap import TileMap
 
 
-class Game:  # Turns the game code into an object.
+class Game:
     def __init__(self):
         pygame.init()
 
-        self.window = pygame.display.set_mode((1250, 675))  # Creates game
-        # window. screen = window
+        pygame.display.set_caption('ninja game')
+        self.screen = pygame.display.set_mode((640, 480))
         self.display = pygame.Surface((320, 240))
 
-        self.timer = pygame.time.Clock()  # Restricts framerate to a fixed
-        # amount. clock = timer
-        pygame.display.set_caption("Pizza Pursuit")
-        self.movement = [False, False]  # Updates cloud movement depending on
-        # character movement.
+        self.clock = pygame.time.Clock()
+
+        self.movement = [False, False]
+
         self.assets = {
-            'player': load_image('images/Pierre.png')
+            #'decor': load_images('tiles/decor'),
+            #'grass': load_images('tiles/grass/0.png'),
+            #'large_decor': load_images('tiles/large_decor/0.png'),
+            #'stone': load_images('tiles/stone'),
+            #'player': load_image('entities/player.png')
         }
 
         self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15))
 
-        #self.scroll = [0, 0] # Creating Camera to follow player
+        self.tilemap = TileMap(self, tile_size=16)
 
     def run(self):
         while True:
             self.display.fill((14, 219, 248))
 
-            # For self.tilemap add the offset ,offset=self.scroll)
+            self.tilemap.render(self.display)
 
-            self.player.update((self.movement[1] - self.movement[0], 0))
-            self.player.render(self.display) # add to brackets ,offset=self.scroll
+            self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
+            self.player.render(self.display)
 
-            for event in pygame.event.get():  # Gets user input.
-                if event.type == pygame.QUIT:  # Allows user to exit out of
-                    # the game.
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == pygame.KEYDOWN:  # Takes user input and checks
-                    # if a specific key is held down to move clouds.
+                if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
                         self.movement[0] = True
                     if event.key == pygame.K_RIGHT:
                         self.movement[1] = True
+                    if event.key == pygame.K_UP:
+                        self.player.velocity[1] = -3
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_LEFT:
                         self.movement[0] = False
                     if event.key == pygame.K_RIGHT:
                         self.movement[1] = False
-            self.window.blit(pygame.transform.scale(self.display, self.window.get_size()), (0, 0))
 
-            pygame.display.update()  # Updates the screen to allow things to
-            # display.
-            self.timer.tick(60)  # sets framerate to 60 FPS.
+            self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0))
+            pygame.display.update()
+            self.clock.tick(60)
 
 
 Game().run()

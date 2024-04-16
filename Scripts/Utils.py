@@ -2,7 +2,7 @@ import pygame
 
 import os
 
-BASE_IMG_PATH = 'data/images/Pierre.png'
+BASE_IMG_PATH = 'Entities/Pierre.png'
 
 
 def load_image(path):
