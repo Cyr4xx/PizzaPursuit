@@ -11,7 +11,8 @@ class Game:
     def __init__(self):
         pygame.init()
 
-        pygame.display.set_caption('ninja game')
+        pygame.display.set_caption(
+            'Pizza Pursuit')  # Sets the title of the window.
         self.screen = pygame.display.set_mode((640, 480))
         self.display = pygame.Surface((320, 240))
 
@@ -20,27 +21,29 @@ class Game:
         self.movement = [False, False]
 
         self.assets = {
-            #'decor': load_images('tiles/decor'),
-            #'grass': load_images('tiles/grass/0.png'),
-            #'large_decor': load_images('tiles/large_decor/0.png'),
-            #'stone': load_images('tiles/stone'),
-            #'player': load_image('entities/player.png')
-        }
+            # 'decor': load_images('tiles/decor'),
+            # 'grass': load_images('tiles/grass/0.png'),
+            # 'large_decor': load_images('tiles/large_decor/0.png'),
+            # 'stone': load_images('tiles/stone'),
+            # 'player': load_image('entities/player.png')
+        }  # Loads assets.
 
         self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15))
-
-        self.tilemap = TileMap(self, tile_size=16)
+        # Creates the player.
+        self.tilemap = TileMap(self, tile_size=16)  # Creates clouds.
 
     def run(self):
         while True:
-            self.display.fill((14, 219, 248))
+            self.display.fill((14, 219, 248))  # Renders background objects.
 
             self.tilemap.render(self.display)
 
-            self.player.update(self.tilemap, (self.movement[1] - self.movement[0], 0))
-            self.player.render(self.display)
+            self.player.update(self.tilemap,
+                               (self.movement[1] - self.movement[0], 0))
+            self.player.render(
+                self.display)  # Moves background in relation to player.
 
-            for event in pygame.event.get():
+            for event in pygame.event.get():  # Takes user input.
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
@@ -57,9 +60,11 @@ class Game:
                     if event.key == pygame.K_RIGHT:
                         self.movement[1] = False
 
-            self.screen.blit(pygame.transform.scale(self.display, self.screen.get_size()), (0, 0))
+            self.screen.blit(
+                pygame.transform.scale(self.display, self.screen.get_size()),
+                (0, 0))
             pygame.display.update()
-            self.clock.tick(60)
+            self.clock.tick(60)  # Sets game to 60 FPS.
 
 
 Game().run()
