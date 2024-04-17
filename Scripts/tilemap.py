@@ -11,7 +11,7 @@ class Tilemap:
     def __init__(self, game, tile_size=16):
         self.game = game
         self.tile_size = tile_size
-        self.tilemap = {}
+        self.tileMap = {}
         self.offgrid_tiles = []
 
     def tiles_around(self, pos):
@@ -21,13 +21,13 @@ class Tilemap:
         for offset in NEIGHBOR_OFFSETS:
             check_loc = str(tile_loc[0] + offset[0]) + ';' + str(
                 tile_loc[1] + offset[1])
-            if check_loc in self.tilemap:
-                tiles.append(self.tilemap[check_loc])
+            if check_loc in self.tileMap:
+                tiles.append(self.tileMap[check_loc])
         return tiles
 
     def save(self, path):
         f = open(path, 'w')
-        json.dump({'tileMap': self.tilemap, 'tile_size': self.tile_size, 'offgrid': self.offgrid_tiles}, f)
+        json.dump({'tileMap': self.tileMap, 'tile_size': self.tile_size, 'offgrid': self.offgrid_tiles}, f)
         f.close()
 
     def load(self, path):
@@ -52,6 +52,6 @@ class Tilemap:
         for tile in self.offgrid_tiles:
             surf.blit(self.game.assets[tile['type']][tile['variant']], tile['pos'][0] - offset[0], tile['pos'][1] - offset[1])
 
-        for loc in self.tilemap:
-            tile = self.tilemap[loc]
+        for loc in self.tileMap:
+            tile = self.tileMap[loc]
             surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))

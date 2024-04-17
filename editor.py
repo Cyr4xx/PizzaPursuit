@@ -72,11 +72,11 @@ class Editor:  # Turns the game code into an object.
                 self.display.blit(current_tile_img, mpos)
 
             if self.clicking and self.ongrid:
-                self.tileMap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
+                self.tileMap.tileMap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
             if self.right_clicking:
                 tile_loc = str(tile_pos[0]) + ';' + str(tile_pos[1])
-                if tile_loc in self.tileMap.tilemap:
-                    del self.tileMap.tilemap[tile_loc]
+                if tile_loc in self.tileMap.tileMap:
+                    del self.tileMap.tileMap[tile_loc]
                 for tile in self.tileMap.offgrid_tiles.copy():
                     tile_img = self.assets[tile['type']][tile['variant']]
                     tile_r = pygame.Rect(tile['pos'][0] - self.scroll[0], tile['pos'][1] - self.scroll[1], tile_img.get.width(), tile_img.get_height())
