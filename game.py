@@ -32,7 +32,7 @@ class Game: # Turns the game code into an object.
         # Creates the player.
         self.tileMap = Tilemap(self, tile_size=16)  # Creates clouds.
 
-        self.scroll = [0, 0] # # Creating Camera to follow player
+        self.scroll = [0, 0] # Creating Camera to follow player
 
     def run(self):
         while True:

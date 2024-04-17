@@ -16,11 +16,11 @@ def get_font(size):
 
 # Takes the font file I provided, and allows utilization of the fonts for
 # the menu screen.
-window.fill('white')
 
+window.fill('white')
 window.blit(ss, (0, 0))  # Places background photo.
 pygame.display.update()
-time.sleep(4)
+
 
 def play():
     while True:
@@ -104,7 +104,7 @@ def main_menu():
             hovering_color="White")
         # Places an options button.
         quit_button = Button(image=pygame.image.load("data/Quit Rect.png"),
-                             pos=(640, 920),
+                             pos=(640, 780),
                              text_input="Exit", font=get_font(75),
                              base_color="#d7fcd4", hovering_color="White")
         window.blit(menu_text, menu_rect)
@@ -127,5 +127,5 @@ def main_menu():
                     sys.exit()
 
         pygame.display.update()
-
+time.sleep(4)
 main_menu()
