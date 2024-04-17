@@ -98,10 +98,10 @@ def main_menu():
                              text_input="Play", font=get_font(75),
                              base_color="#d7fcd4", hovering_color="White")
         # Creates a play button
-        options_button = Button(
-            image=pygame.image.load("data/Options Rect.png"), pos=(640, 400),
-            text_input="Tutorial", font=get_font(75), base_color="#d7fcd4",
-            hovering_color="White")
+        options_button = Button(image=pygame.image.load("data/Options Rect.png"),
+                                pos=(640, 400),
+                                text_input="Tutorial", font=get_font(75), base_color="#d7fcd4",
+                                hovering_color="White")
         # Places an options button.
         quit_button = Button(image=pygame.image.load("data/Quit Rect.png"),
                              pos=(640, 780),
