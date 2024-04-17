@@ -25,7 +25,8 @@ class Game: # Turns the game code into an object.
              'grass': load_images('tiles/grass'),
              'large_decor': load_images('tiles/large_decor'),
              'stone': load_images('tiles/stone'),
-            'player': load_image('Entities/Pierre/Pierre 1.png')
+            'player': load_image('Entities/Pierre/Pierre 1.png'),
+            'background': load_image('background.png')
         }  # Loads assets for many aspects of the game.
 
         self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15))
@@ -36,7 +37,7 @@ class Game: # Turns the game code into an object.
 
     def run(self):
         while True:
-            self.display.fill((17, 38, 26))  # Renders background objects.
+            self.display.blit(self.assets['background'], (0,0)) # Renders background objects.
 
             self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
             self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
