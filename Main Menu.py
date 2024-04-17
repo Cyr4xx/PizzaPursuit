@@ -11,25 +11,16 @@ pygame.display.set_caption("Pizza Pursuit: Chef's Revenge")
 bg = pygame.image.load("data/images/bg.png")  # Menu background.
 ss = pygame.image.load("data/Pizza.png")  # Splash Screen.
 
-
 def get_font(size):
-
     return pygame.font.Font("data/PixelatedPusab.ttf", size)
-
-    return pygame.font.Font("data/font.ttf", size)
-
-
 
 # Takes the font file I provided, and allows utilization of the fonts for
 # the menu screen.
 window.fill('white')
 
 window.blit(ss, (0, 0))  # Places background photo.
-
 pygame.display.update()
-
 time.sleep(4)
-
 
 def play():
     while True:
@@ -57,7 +48,6 @@ def play():
                     main_menu()
 
         pygame.display.update()
-
 
 def options():
     while True:
@@ -90,7 +80,6 @@ def options():
 
         pygame.display.update()
 
-
 def main_menu():
     while True:
 
@@ -100,25 +89,11 @@ def main_menu():
 
         menu_mouse_pos = pygame.mouse.get_pos()  # Tracks mouse position.
 
-        menu_text = get_font(85).render('Pizza Pursuit', True, "#ffffff")
+        menu_text = get_font(75).render('Pizza Pursuit', True, "#ffffff")
         menu_rect = menu_text.get_rect(
             center=(640, 100))  # SHows the Title of the game.
 
         play_button = Button(image=pygame.image.load("data/Play Rect.png"),
-
-                             pos=(625, 400),
-                             text_input="Play", font=get_font(70),
-                             base_color="#ffa500", hovering_color="White")
-        # Creates a play button
-        options_button = Button(image=pygame.image.load("data/Options Rect.png"), pos=(625, 550),
-            text_input="Tutorial", font=get_font(70), base_color="#ffa500",
-            hovering_color="White")
-        # Places an options button.
-        quit_button = Button(image=pygame.image.load("data/Quit Rect.png"),
-                             pos=(625, 700),
-                             text_input="Quit", font=get_font(70),
-                             base_color="#ff0000", hovering_color="White")
-
                              pos=(640, 250),
                              text_input="Play", font=get_font(75),
                              base_color="#d7fcd4", hovering_color="White")
@@ -132,7 +107,6 @@ def main_menu():
                              pos=(640, 920),
                              text_input="Exit", font=get_font(75),
                              base_color="#d7fcd4", hovering_color="White")
-
         window.blit(menu_text, menu_rect)
         # Places a quit button
         for button in [play_button, options_button, quit_button]:
@@ -153,6 +127,5 @@ def main_menu():
                     sys.exit()
 
         pygame.display.update()
-
 
 main_menu()
