@@ -7,16 +7,16 @@ from Scripts.Entities import PhysicsEntity
 from Scripts.tilemap import Tilemap
 
 
-class Game:
+class Game: # Turns the game code into an object.
     def __init__(self):
         pygame.init()
 
         pygame.display.set_caption(
             'Pizza Pursuit')  # Sets the title of the window.
-        self.screen = pygame.display.set_mode((640, 480))
+        self.screen = pygame.display.set_mode((640, 480)) # Creates game window. screen = window
         self.display = pygame.Surface((320, 240))
 
-        self.clock = pygame.time.Clock()
+        self.timer = pygame.time.Clock() # Restricts framerate to a fixe amount. clock = timer
 
         self.movement = [False, False]
 
@@ -26,30 +26,31 @@ class Game:
              'large_decor': load_images('tiles/large_decor'),
              'stone': load_images('tiles/stone'),
             'player': load_image('Entities/Pierre/Pierre 1.png')
-        }  # Loads assets.
+        }  # Loads assets for many aspects of the game.
 
         self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15))
         # Creates the player.
         self.tilemap = Tilemap(self, tile_size=16)  # Creates clouds.
 
-        self.scroll = [0, 0] # Creates a camera position
+        self.scroll = [0, 0] # # Creating Camera to follow player
 
     def run(self):
         while True:
-            self.display.fill((14, 219, 248))  # Renders background objects.
+            self.display.fill((17, 38, 26))  # Renders background objects.
 
-            self.tilemap.render(self.display)#offset=self.scroll
+            self.tilemap.render(self.display)
 
             self.player.update(self.tilemap,
                                (self.movement[1] - self.movement[0], 0))
             self.player.render(
-                self.display)  # Moves background in relation to player. #offset=self.scroll
+                self.display)
 
             for event in pygame.event.get():  # Takes user input.
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN: # Takes user input and checks
+                    # if a specific key is held down to move.
                     if event.key == pygame.K_LEFT:
                         self.movement[0] = True
                     if event.key == pygame.K_RIGHT:
@@ -65,7 +66,8 @@ class Game:
             self.screen.blit(
                 pygame.transform.scale(self.display, self.screen.get_size()),
                 (0, 0))
-            pygame.display.update()
-            self.clock.tick(60)  # Sets game to 60 FPS.
+            pygame.display.update() # Updates the screen to allow things to
+            # display.
+            self.timer.tick(60)  # Sets game to 60 FPS.
 
 Game().run()
