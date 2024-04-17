@@ -28,7 +28,12 @@ class Editor:  # Turns the game code into an object.
 
         self.movement = [False, False, False, False]
 
-        self.tileMap = Tilemap(self, tile_size=16)  # Creates clouds.
+        self.tileMap = Tilemap(self, tile_size=16)  # Creates clouds
+
+        try:
+            self.tileMap.load('map.json')
+        except FileNotFoundError:
+            pass
 
         self.scroll = [0, 0]  # # Creating Camera to follow player
 
@@ -39,6 +44,7 @@ class Editor:  # Turns the game code into an object.
         self.clicking = False
         self.right_clicking = False
         self.shift = False
+        self.ongrid = True
 
     def run(self):
         while True:
@@ -59,18 +65,23 @@ class Editor:  # Turns the game code into an object.
             tile_pos = (int((mpos[0] + self.scroll[0]) // self.tileMap.tile_size), int(mpos[1] + self.scroll[1]) // self.tileMap.tile_size)
             # Calculates the tile position
 
-            self.display.blit(current_tile_img, (tile_pos[0] * self.tileMap.tile_size - self.scroll[0], tile_pos[1] * self.tileMap.tile_size - self.scroll[1]))
+            if self.ongrid:
+                self.display.blit(current_tile_img, (tile_pos[0] * self.tileMap.tile_size - self.scroll[0], tile_pos[1] * self.tileMap.tile_size - self.scroll[1]))
               # Converts tile position to pixel coordinates
+            else:
+                self.display.blit(current_tile_img, mpos)
 
-            if self.clicking:
+            if self.clicking and self.ongrid:
                 self.tileMap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = {'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': tile_pos}
             if self.right_clicking:
                 tile_loc = str(tile_pos[0]) + ';' + str(tile_pos[1])
                 if tile_loc in self.tileMap.tilemap:
                     del self.tileMap.tilemap[tile_loc]
-
-            self.display.blit(current_tile_img, (5, 5))
-
+                for tile in self.tileMap.offgrid_tiles.copy():
+                    tile_img = self.assets[tile['type']][tile['variant']]
+                    tile_r = pygame.Rect(tile['pos'][0] - self.scroll[0], tile['pos'][1] - self.scroll[1], tile_img.get.width(), tile_img.get_height())
+                    if tile_r.collidepoint(mpos):
+                        self.tileMap.offgrid_tiles.remove(tile)
             for event in pygame.event.get():  # Takes user input.
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -79,6 +90,8 @@ class Editor:  # Turns the game code into an object.
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         self.clicking = True
+                        if not self.ongrid:
+                            self.tileMap.offgrid_tiles.append({'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': (mpos[0] + self.scroll[0], mpos[1] + self.scroll[1])})
                     if event.button == 3:
                         self.right_clicking = True
                     if self.shift:
@@ -109,6 +122,10 @@ class Editor:  # Turns the game code into an object.
                         self.movement[2] = True
                     if event.key == pygame.K_s:
                         self.movement[3] = True
+                    if event.key == pygame.K_g:
+                        self.ongrid = not self.ongrid
+                    if event.key ==pygame.K_o:
+                        self.tileMap.save('map.json')
                     if event.key == pygame.K_LSHIFT:
                         self.shift = True
                 if event.type == pygame.KEYUP:
