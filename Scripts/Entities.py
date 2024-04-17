@@ -52,4 +52,4 @@ class PhysicsEntity:  # Creates entity class group that handles the physics
             self.velocity[1] = 0
 
     def render(self, surf, offset=(0, 0)):
-        surf.blit(self.game.assets['player'], self.pos)
+        surf.blit(self.game.assets['player'], (self.pos[0] - offset[0], self.pos[1] - offset[1]))

@@ -30,7 +30,7 @@ class Game: # Turns the game code into an object.
 
         self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15))
         # Creates the player.
-        self.tilemap = Tilemap(self, tile_size=16)  # Creates clouds.
+        self.tileMap = Tilemap(self, tile_size=16)  # Creates clouds.
 
         self.scroll = [0, 0] # # Creating Camera to follow player
 
@@ -38,12 +38,14 @@ class Game: # Turns the game code into an object.
         while True:
             self.display.fill((17, 38, 26))  # Renders background objects.
 
-            self.tilemap.render(self.display)
+            self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
+            self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
+            render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
-            self.player.update(self.tilemap,
-                               (self.movement[1] - self.movement[0], 0))
-            self.player.render(
-                self.display)
+            self.tileMap.render(self.display, offset=render_scroll)
+
+            self.player.update(self.tileMap,(self.movement[1] - self.movement[0], 0))
+            self.player.render(self.display, offset=render_scroll)
 
             for event in pygame.event.get():  # Takes user input.
                 if event.type == pygame.QUIT:
