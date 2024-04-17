@@ -4,7 +4,7 @@ import pygame
 
 from Scripts.Utils import load_image, load_images
 from Scripts.Entities import PhysicsEntity
-from Scripts.tilemap import TileMap
+from Scripts.tilemap import Tilemap
 
 
 class Game:
@@ -21,27 +21,29 @@ class Game:
         self.movement = [False, False]
 
         self.assets = {
-            # 'decor': load_images('tiles/decor'),
-            # 'grass': load_images('tiles/grass/0.png'),
-            # 'large_decor': load_images('tiles/large_decor/0.png'),
-            # 'stone': load_images('tiles/stone'),
-            # 'player': load_image('entities/player.png')
+             'decor': load_images('tiles/decor'),
+             'grass': load_images('tiles/grass'),
+             'large_decor': load_images('tiles/large_decor'),
+             'stone': load_images('tiles/stone'),
+            'player': load_image('Entities/Pierre/Pierre 1.png')
         }  # Loads assets.
 
         self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15))
         # Creates the player.
-        self.tilemap = TileMap(self, tile_size=16)  # Creates clouds.
+        self.tilemap = Tilemap(self, tile_size=16)  # Creates clouds.
+
+        self.scroll = [0, 0] # Creates a camera position
 
     def run(self):
         while True:
             self.display.fill((14, 219, 248))  # Renders background objects.
 
-            self.tilemap.render(self.display)
+            self.tilemap.render(self.display)#offset=self.scroll
 
             self.player.update(self.tilemap,
                                (self.movement[1] - self.movement[0], 0))
             self.player.render(
-                self.display)  # Moves background in relation to player.
+                self.display)  # Moves background in relation to player. #offset=self.scroll
 
             for event in pygame.event.get():  # Takes user input.
                 if event.type == pygame.QUIT:
@@ -65,6 +67,5 @@ class Game:
                 (0, 0))
             pygame.display.update()
             self.clock.tick(60)  # Sets game to 60 FPS.
-
 
 Game().run()
