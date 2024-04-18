@@ -5,6 +5,7 @@ import pygame
 from Scripts.Utils import load_image, load_images
 from Scripts.Entities import PhysicsEntity
 from Scripts.tilemap import Tilemap
+from Scripts.clouds import Clouds
 
 
 class Game: # Turns the game code into an object.
@@ -26,8 +27,11 @@ class Game: # Turns the game code into an object.
              'large_decor': load_images('tiles/large_decor'),
              'stone': load_images('tiles/stone'),
             'player': load_image('Entities/Pierre/Pierre 1.png'),
-            'background': load_image('background.png')
+            'background': load_image('background.png'),
+            'clouds': load_images('clouds')
         }  # Loads assets for many aspects of the game.
+
+        self.clouds = Clouds(self.assets['clouds'], count = 16)
 
         self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15))
         # Creates the player.
@@ -42,6 +46,9 @@ class Game: # Turns the game code into an object.
             self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
             self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
+
+            self.clouds.update()
+            self.clouds.render(self.display, offset = render_scroll)
 
             self.tileMap.render(self.display, offset=render_scroll)
 
