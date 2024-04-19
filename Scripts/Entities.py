@@ -57,3 +57,13 @@ class PhysicsEntity:  # Creates entity class group that handles the physics
         surf.blit(self.game.assets['player'],
                   (self.pos[0] - offset[0], self.pos[1] - offset[1]))
 
+    def collects(self, tilemap):
+        self.collisions = {'up': False, 'down': False, 'right': False,
+                           'left': False}
+        entity_rect = self.rect()
+        for rect in tilemap.collectable(self.pos):
+            if entity_rect.colliderect(rect):
+                print('fortnite')
+
+
+

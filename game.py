@@ -67,6 +67,8 @@ class Game: # Turns the game code into an object.
             self.tileMap.render(self.display, offset=render_scroll)
 
             self.player.update(self.tileMap,(self.movement[1] - self.movement[0], 0))
+            self.player.collects(self.tileMap)
+
             self.player.render(self.display, offset=render_scroll)
 
             for particle in self.particles.copy():
