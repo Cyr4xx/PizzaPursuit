@@ -4,7 +4,7 @@ from button import Button
 import time
 
 pygame.init()
-window = pygame.display.set_mode((1280, 1022))  # Creates game
+window = pygame.display.set_mode((1080, 1022))  # Creates game
 # window. screen = window
 pygame.display.set_caption("Pizza Pursuit: Chef's Revenge")
 
@@ -29,10 +29,10 @@ def play():
         window.fill('black')
 
         play_text = get_font(45).render("Play ", True, "White")
-        play_rect = play_text.get_rect(center=(640, 260))
+        play_rect = play_text.get_rect(center=(540, 260))
         window.blit(play_text, play_rect)  # Creates the play button.
 
-        play_back = Button(image=None, pos=(640, 460),
+        play_back = Button(image=None, pos=(540, 460),
                            text_input="BACK", font=get_font(75),
                            base_color="White", hovering_color="Green")
 
@@ -94,24 +94,24 @@ def main_menu():
             center=(640, 100))  # SHows the Title of the game.
 
         play_button = Button(image=pygame.image.load("data/play.png"),
-                             pos=(640, 250),
+                             pos=(540, 250),
                              text_input="Play", font=get_font(75),
                              base_color="#d7fcd4", hovering_color="White")
         # Creates a play button
         options_button = Button(image=pygame.image.load("data/Options.png"),
-                                pos=(640, 400),
+                                pos=(540, 400),
                                 text_input="Tutorial", font=get_font(75), base_color="#d7fcd4",
                                 hovering_color="White")
 
         maker_button = Button(image=pygame.image.load("data/Options.png"),
-                                pos=(640, 550),
+                                pos=(540, 550),
                                 text_input="Level Editor", font=get_font(75),
                                 base_color="#d7fcd4",
                                 hovering_color="White")
 
         # Places an options button.
         quit_button = Button(image=pygame.image.load("data/quit.png"),
-                             pos=(640, 780),
+                             pos=(540, 780),
                              text_input="Exit", font=get_font(75),
                              base_color="#d7fcd4", hovering_color="White")
         window.blit(menu_text, menu_rect)
