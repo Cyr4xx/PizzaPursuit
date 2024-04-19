@@ -53,17 +53,18 @@ class PhysicsEntity:  # Creates entity class group that handles the physics
         if self.collisions['down'] or self.collisions['up']:
             self.velocity[1] = 0
 
+    def collects(self, tilemap):
+        entity_rect = self.rect()
+        for rect in tilemap.collectable(self.pos):
+            if entity_rect.colliderect(rect):
+                tilemap.FOOD = 1
+
     def render(self, surf, offset=(0, 0)):
         surf.blit(self.game.assets['player'],
                   (self.pos[0] - offset[0], self.pos[1] - offset[1]))
 
-    def collects(self, tilemap):
-        self.collisions = {'up': False, 'down': False, 'right': False,
-                           'left': False}
-        entity_rect = self.rect()
-        for rect in tilemap.collectable(self.pos):
-            if entity_rect.colliderect(rect):
-                print('fortnite')
+
+
 
 
 

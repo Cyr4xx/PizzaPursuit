@@ -93,23 +93,30 @@ def main_menu():
         menu_rect = menu_text.get_rect(
             center=(640, 100))  # SHows the Title of the game.
 
-        play_button = Button(image=pygame.image.load("data/Play Rect.png"),
+        play_button = Button(image=pygame.image.load("data/play.png"),
                              pos=(640, 250),
                              text_input="Play", font=get_font(75),
                              base_color="#d7fcd4", hovering_color="White")
         # Creates a play button
-        options_button = Button(image=pygame.image.load("data/Options Rect.png"),
+        options_button = Button(image=pygame.image.load("data/Options.png"),
                                 pos=(640, 400),
                                 text_input="Tutorial", font=get_font(75), base_color="#d7fcd4",
                                 hovering_color="White")
+
+        maker_button = Button(image=pygame.image.load("data/Options.png"),
+                                pos=(640, 550),
+                                text_input="Level Editor", font=get_font(75),
+                                base_color="#d7fcd4",
+                                hovering_color="White")
+
         # Places an options button.
-        quit_button = Button(image=pygame.image.load("data/Quit Rect.png"),
+        quit_button = Button(image=pygame.image.load("data/quit.png"),
                              pos=(640, 780),
                              text_input="Exit", font=get_font(75),
                              base_color="#d7fcd4", hovering_color="White")
         window.blit(menu_text, menu_rect)
         # Places a quit button
-        for button in [play_button, options_button, quit_button]:
+        for button in [play_button, options_button, quit_button, maker_button]:
             button.changeColor(menu_mouse_pos)
             button.update(window)
 
@@ -125,6 +132,8 @@ def main_menu():
                 if quit_button.checkForInput(menu_mouse_pos):
                     pygame.quit()
                     sys.exit()
+                if maker_button.checkForInput(menu_mouse_pos):
+                    from editor import Editor
 
         pygame.display.update()
 time.sleep(4)
