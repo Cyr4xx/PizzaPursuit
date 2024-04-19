@@ -91,7 +91,7 @@ def main_menu():
 
         menu_text = get_font(75).render('Pizza Pursuit', True, "#ffffff")
         menu_rect = menu_text.get_rect(
-            center=(640, 100))  # SHows the Title of the game.
+            center=(540, 100))  # SHows the Title of the game.
 
         play_button = Button(image=pygame.image.load("data/play.png"),
                              pos=(540, 250),
