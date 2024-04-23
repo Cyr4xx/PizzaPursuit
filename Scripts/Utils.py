@@ -32,16 +32,16 @@ def load_images_tran(path):
 
 class Animation:
     def __init__(self, images, img_dur=5, loop=True):
-        self.images = images
-        self.loop = loop
-        self.img_duration = img_dur
-        self.done = False
-        self.frame = 0
+        self.images = images # Images to animate.
+        self.loop = loop # Loops Animations
+        self.img_duration = img_dur # Duration of the animation.
+        self.done = False # If the animation is done it sets this to True.
+        self.frame = 0 # Renders images based on the frame
 
     def copy(self):
         return Animation(self.images, self.img_duration, self.loop)
 
-    def update(self):
+    def update(self): # Choosing the correct image for the frame.
         if self.loop:
             self.frame = (self.frame + 1) % (
                         self.img_duration * len(self.images))
@@ -52,4 +52,4 @@ class Animation:
                 self.done = True
 
     def img(self):
-        return self.images[int(self.frame / self.img_duration)]
+        return self.images[int(self.frame / self.img_duration)] # Increments the frames allowing for the right image to show.

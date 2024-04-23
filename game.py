@@ -3,7 +3,7 @@ import math
 import pygame
 
 from Scripts.Utils import load_image, load_images, Animation, load_images_tran
-from Scripts.Entities import PhysicsEntity
+from Scripts.Entities import PhysicsEntity, Player
 from Scripts.tilemap import Tilemap
 from Scripts.clouds import Clouds
 
@@ -27,15 +27,19 @@ class Game: # Turns the game code into an object.
              'large_decor': load_images('tiles/large_decor'),
              'stone': load_images('tiles/stone'),
             'food': load_images_tran('tiles/food'),
-            'player': load_image('Entities/Pierre/Pierre 1.png'),
+            'player': load_image('Entities/player/idle/Pierre 1.png'),
             'background': load_image('background.png'),
             'clouds': load_images('clouds'),
+            'player/idle': Animation(load_images('entities/player/idle'), img_dur=6),
+            'player/run': Animation(load_images('entities/player/run'),
+                                     img_dur=4),
+            'player/jump': Animation(load_images('entities/player/jump')),
             'particle/leaf': Animation(load_images('particles/leaf'), img_dur=20, loop=False),
         }  # Loads assets for many aspects of the game.
 
         self.clouds = Clouds(self.assets['clouds'], count = 16)
 
-        self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15))
+        self.player = Player(self, (50, 50), (8, 15))
 
         # Creates the player.
         self.tileMap = Tilemap(self, tile_size=16)  # Creates clouds.
