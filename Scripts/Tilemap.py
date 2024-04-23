@@ -9,6 +9,8 @@ PHYSICS_TILES = {'grass', 'stone'}
 COLLECTABLES = {'food'}
 
 FOOD = 0
+
+
 class Tilemap:
     def __init__(self, game, tile_size=16):
         self.game = game
@@ -16,7 +18,7 @@ class Tilemap:
         self.tileMap = {}
         self.offgrid_tiles = []
 
-    def extract(self, id_pairs, keep=False): # Checks if tile is in a list to extract it and says where it is.
+    def extract(self, id_pairs, keep=False):  # Checks if tile is in a list to extract it and says where it is.
         matches = []
         for tile in self.offgrid_tiles.copy():
             if (tile['type'], tile['variant']) in id_pairs:
@@ -28,11 +30,11 @@ class Tilemap:
             tile = self.tileMap[loc]
             if (tile['type'], tile['variant']) in id_pairs:
                 matches.append(tile.copy())
-                matches[-1]['pos'] = matches[-1]['pos'.copy()] # Changes tile position into pixels instead of coordinates.
+                matches[-1]['pos'] = matches[-1]['pos'.copy()]  # Changes tile position into pixels instead of coordinates.
                 matches[-1]['pos'][0] *= self.tile_size
                 matches[-1]['pos'][1] *= self.tile_size
                 if not keep:
-                    del self.tilemap[loc]
+                    del self.tileMap[loc]
 
             return matches
 
@@ -79,12 +81,15 @@ class Tilemap:
                                          self.tile_size, self.tile_size))
         return rects
 
-
     def render(self, surf, offset=(0, 0)):
         for tile in self.offgrid_tiles:
             surf.blit(self.game.assets[tile['type']][tile['variant']], tile['pos'][0] - offset[0], tile['pos'][1] - offset[1])
 
-        for loc in self.tileMap:
-            tile = self.tileMap[loc]
-            surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))
-
+        for x in range(offset[0] // self.tile_size, (offset[0] + surf.get_width()) // self.tile_size + 5):
+            # Finds the coordinates of the two farthest tiles on the screen on the x-axis (the width)
+            for y in range(offset[1] // self.tile_size, (offset[1] + surf.get_height()) // self.tile_size + 2):
+                # Finds the coordinates of the two farthest tiles on the screen on the y-axis (the length)
+                loc = str(x) + ';' + str(y)
+                if loc in self.tileMap:
+                    tile = self.tileMap[loc]
+                    surf.blit(self.game.assets[tile['type']][tile['variant']], (tile['pos'][0] * self.tile_size - offset[0], tile['pos'][1] * self.tile_size - offset[1]))
