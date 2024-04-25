@@ -24,7 +24,7 @@ class Editor:  # Turns the game code into an object.
              'grass': load_images('tiles/grass'),
              'large_decor': load_images('tiles/large_decor'),
              'stone': load_images('tiles/stone'),
-            'food': load_images('tiles/food'),
+             'food': load_images('tiles/food'),
         }  # Loads assets for many aspects of the game.
 
         self.movement = [False, False, False, False]

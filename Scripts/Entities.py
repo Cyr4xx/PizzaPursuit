@@ -82,14 +82,16 @@ class Player(PhysicsEntity):
     def __init__(self, game, pos, size):
         super().__init__(game, 'player', pos, size)
         self.air_time = 0
+        self.jumps = 1
 
     def update(self, tilemap, movement=(0, 0)):
         super().update(tilemap, movement=movement)
 
-        self.air_time += 1 # Checks air time and applys a jump animation
+        self.air_time += 1 # Checks air time and applies a jump animation
         # when jumping.
         if self.collisions['down']:
             self.air_time = 0
+            self.jumps = 2
 
         if self.air_time > 4:
             self.set_action('jump')
@@ -99,6 +101,12 @@ class Player(PhysicsEntity):
         else:
             self.set_action('idle') # Sets player to idle if they are not
             # running or jumping.
+
+    def jump(self):
+        if self.jumps:
+            self.velocity[1] = -3
+            self.jumps -= 1
+            self.air_time = 5
 
 
 
