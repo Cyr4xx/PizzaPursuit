@@ -87,18 +87,31 @@ class Game:  # Turns the game code into an object.
                     sys.exit()
                 if event.type == pygame.KEYDOWN:  # Takes user input and checks
                     # if a specific key is held down to move.
-                    if event.key == pygame.K_LEFT:
+                    if event.key == pygame.K_a:
                         self.movement[0] = True
-                    if event.key == pygame.K_RIGHT:
+                    if event.key == pygame.K_d:
                         self.movement[1] = True
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_w:
                         self.player.jump()
-                if event.type == pygame.KEYUP:
-                    if event.key == pygame.K_LEFT:
+                if event.type == pygame.K_w:
+                    if event.key == pygame.K_s:
                         self.movement[0] = False
-                    if event.key == pygame.K_RIGHT:
+                    if event.key == pygame.K_a:
                         self.movement[1] = False
 
+                if event.type == pygame.KEYUP:  # Takes user input and checks
+                    # if a specific key is held down to move.
+                    if event.key == pygame.K_a:
+                        self.movement[0] = False
+                    if event.key == pygame.K_d:
+                        self.movement[1] = False
+                    if event.key == pygame.K_w:
+                        pass
+                if event.type == pygame.K_w:
+                    if event.key == pygame.K_s:
+                        self.movement[0] = False
+                    if event.key == pygame.K_a:
+                        self.movement[1] = False
             self.screen.blit(
                 pygame.transform.scale(self.display, self.screen.get_size()),
                 (0, 0))
