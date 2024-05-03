@@ -56,6 +56,8 @@ class Game:  # Turns the game code into an object.
 
         self.scroll = [0, 0]  # Creating Camera to follow player
 
+
+
     def run(self):
         while True:
             self.display.blit(self.assets['background'], (0, 0))  # Renders background objects.
