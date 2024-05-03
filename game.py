@@ -1,12 +1,13 @@
 import sys
 import math
 import pygame
+import random
 
 from Scripts.Utils import load_image, load_images, Animation, load_images_tran
 from Scripts.Entities import PhysicsEntity, Player
 from Scripts.tilemap import Tilemap
 from Scripts.clouds import Clouds
-
+from Scripts.particle import Particle
 
 class Game:  # Turns the game code into an object.
     def __init__(self):
@@ -37,7 +38,7 @@ class Game:  # Turns the game code into an object.
              'particle/leaf': Animation(load_images('particles/leaf'), img_dur=20, loop=False),
         }  # Loads assets for many aspects of the game.
 
-        self.clouds = Clouds(self.assets['clouds'], count=16)
+        self.clouds = Clouds(self.assets['clouds'], count=16) # Prints clouds all over the background.
 
         self.player = Player(self, (50, 50), (8, 15))
 
@@ -48,7 +49,7 @@ class Game:  # Turns the game code into an object.
         self.leaf_spawners = []
         for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
             self.leaf_spawners.append(
-                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 23, 13))
+                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 41, 48))
             # Creates leaves to fall from trees and also finds tree location.
 
         self.particles = []
@@ -59,8 +60,13 @@ class Game:  # Turns the game code into an object.
         while True:
             self.display.blit(self.assets['background'], (0, 0))  # Renders background objects.
             self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
-            self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30
+            self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30 # Allows scrolling of the camera.
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
+
+            for rect in self.leaf_spawners:  # Length * width of the tree gives this area. Multiplying by 49999 allows us to control the number of spawn per second.
+                if random.random() * 49999 < rect.width * rect.height: #This takes a random number and makes sure it places leaves in accordance with the hitbox of the tree.
+                    pos = (rect.x + random.random() * rect.width, rect.y + random.random() * rect.height) # Takes the x coordinate of the tree, multiples by random number.
+                    self.particles.append(Particle(self, 'leaf', pos, velocity=[-0.1, 0.3], frame=random.randint(0, 20))) # Spawns the particles and dictates the Velocity, timing, position and type.
 
             self.clouds.update()
             self.clouds.render(self.display, offset=render_scroll)
@@ -72,14 +78,14 @@ class Game:  # Turns the game code into an object.
 
             self.player.render(self.display, offset=render_scroll)
 
-            for particle in self.particles.copy():
-                kill = particle.update()
-                particle.render(self.display, offset=render_scroll)
+            for particle in self.particles.copy(): # Copies the particles so it can be removed each iteration.
+                kill = particle.update() # Updates the particle allowing them to be deleted.
+                particle.render(self.display, offset=render_scroll) # Adds camera offsets to particles and renders them.
                 if particle.type == 'leaf':
                     particle.pos[0] += math.sin(
-                        particle.animation.frame * 0.035) * 0.3
+                        particle.animation.frame * 0.035) * 0.3 #Animates the particle.
                 if kill:
-                    self.particles.remove(particle)
+                    self.particles.remove(particle) # Removes the particle.
 
             for event in pygame.event.get():  # Takes user input.
                 if event.type == pygame.QUIT:
