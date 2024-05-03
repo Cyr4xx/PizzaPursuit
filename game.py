@@ -42,7 +42,7 @@ class Game:  # Turns the game code into an object.
         self.player = Player(self, (50, 50), (8, 15))
 
         # Creates the player.
-        self.tileMap = Tilemap(self, tile_size=16)  # Creates clouds.
+        self.tileMap = Tilemap(self, tile_size=16)  # Loads all tiles and the level.
         self.tileMap.load('map.json')
 
         self.leaf_spawners = []
