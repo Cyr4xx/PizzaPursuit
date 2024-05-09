@@ -74,7 +74,7 @@ class Tilemap:
     def collectable(self, pos):
         rects = []
         for tile in self.tiles_around(pos):
-            if tile['food'] in COLLECTABLES:
+            if tile['type'] in COLLECTABLES:
                 rects.append(pygame.Rect(tile['pos'][0] * self.tile_size,
                                          tile['pos'][1] * self.tile_size,
                                          self.tile_size, self.tile_size))

@@ -73,7 +73,7 @@ class PhysicsEntity:  # Creates entity class group that handles the physics
         entity_rect = self.rect()
         for rect in tilemap.collectable(self.pos):
             if entity_rect.colliderect(rect):
-
+                print(2)
 
 
     def render(self, surf, offset=(0, 0)):
