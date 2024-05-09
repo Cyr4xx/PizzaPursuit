@@ -1,11 +1,22 @@
 import json
 import pygame
 
+AUTOTILE_MAP = {
+    tuple(sorted([(1, 0), (0, 1)])): 0,
+    tuple(sorted([(1, 0), (0, 1), (-1, 0)])): 1,
+    tuple(sorted([(-1, 0), (0, 1)])): 2,
+    tuple(sorted([(-1, 0), (0, -1), (0, 1)])): 3,
+    tuple(sorted([(-1, 0), (0, -1)])): 4,
+    tuple(sorted([(-1, 0), (0, -1), (1, 0)])): 5,
+    tuple(sorted([(1, 0), (0, -1)])): 6,
+    tuple(sorted([(1, 0), (0, -1), (0, 1)])): 7,
+    tuple(sorted([(1, 0), (-1, 0), (0, 1), (0, -1)])): 8,
+}
 
-NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0),
-                    (-1, 1), (0, 1), (1, 1)]
+
+NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0), (-1, 1), (0, 1), (1, 1)]
 PHYSICS_TILES = {'grass', 'stone'}
-
+AUTOTILE_TYPES = {'grass', 'stone'}
 COLLECTABLES = {'food'}
 
 
@@ -17,7 +28,9 @@ class Tilemap:
         self.tileMap = {}
         self.offgrid_tiles = []
 
-    def extract(self, id_pairs, keep=False):  # Checks if tile is in a list to extract it and says where it is.
+
+
+    def extract(self, id_pairs, keep=False): # Checks if tile is in a list to extract it and says where it is.
         matches = []
         for tile in self.offgrid_tiles.copy():
             if (tile['type'], tile['variant']) in id_pairs:
@@ -29,7 +42,7 @@ class Tilemap:
             tile = self.tileMap[loc]
             if (tile['type'], tile['variant']) in id_pairs:
                 matches.append(tile.copy())
-                matches[-1]['pos'] = matches[-1]['pos'.copy()]  # Changes tile position into pixels instead of coordinates.
+                matches[-1]['pos'] = matches[-1]['pos'].copy() # Changes tile position into pixels instead of coordinates.
                 matches[-1]['pos'][0] *= self.tile_size
                 matches[-1]['pos'][1] *= self.tile_size
                 if not keep:
@@ -71,6 +84,20 @@ class Tilemap:
                                          self.tile_size, self.tile_size))
         return rects
 
+    def autotile(self):
+        for loc in self.tileMap:
+            tile = self.tileMap[loc]
+            neighbours = set()
+            for shift in [(1, 0), (-1, 0), (0, -1), (0, 1)]:
+                check_loc = str(tile['pos'][0] + shift[0]) + ';' + str(
+                    tile['pos'][1] + shift[1])
+                if check_loc in self.tileMap:
+                    if self.tileMap[check_loc]['type'] == tile['type']:
+                        neighbours.add(shift)
+            neighbors = tuple(sorted(neighbours))
+            if (tile['type'] in AUTOTILE_TYPES) and (
+                    neighbors in AUTOTILE_MAP):
+                tile['variant'] = AUTOTILE_MAP[neighbors]
     def collectable(self, pos):
         rects = []
         for tile in self.tiles_around(pos):

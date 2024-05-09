@@ -51,7 +51,11 @@ class Game:  # Turns the game code into an object.
             self.leaf_spawners.append(
                 pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 41, 48))
             # Creates leaves to fall from trees and also finds tree location.
-   
+
+        for food in self.tileMap.extract([('food', 0), ('food', 1), ('food', 2), ('food', 3), ('food', 4), ('food', 5)]):
+            if food['variant'] >= 0:
+                print(food['pos'], 'food')
+
 
         self.particles = []
 

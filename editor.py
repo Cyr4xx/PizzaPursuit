@@ -92,24 +92,32 @@ class Editor:  # Turns the game code into an object.
                     if event.button == 1:
                         self.clicking = True
                         if not self.ongrid:
-                            self.tileMap.offgrid_tiles.append({'type': self.tile_list[self.tile_group], 'variant': self.tile_variant, 'pos': (mpos[0] + self.scroll[0], mpos[1] + self.scroll[1])})
+                            self.tileMap.offgrid_tiles.append(
+                                {'type': self.tile_list[self.tile_group],
+                                 'variant': self.tile_variant, 'pos': (
+                                mpos[0] + self.scroll[0],
+                                mpos[1] + self.scroll[1])})
                     if event.button == 3:
                         self.right_clicking = True
                     if self.shift:
                         if event.button == 4:
-                            self.tile_variant = (self.tile_variant - 1) % len(self.assets[self.tile_list[self.tile_group]])
+                            self.tile_variant = (self.tile_variant - 1) % len(
+                                self.assets[self.tile_list[self.tile_group]])
                         if event.button == 5:
-                            self.tile_variant = (self.tile_variant + 1) % len(self.tile_list)
+                            self.tile_variant = (self.tile_variant + 1) % len(
+                                self.assets[self.tile_list[self.tile_group]])
                     else:
                         if event.button == 4:
-                            self.tile_group = (self.tile_group - 1) % len(self.tile_list)
+                            self.tile_group = (self.tile_group - 1) % len(
+                                self.tile_list)
                             self.tile_variant = 0
                         if event.button == 5:
-                            self.tile_group = (self.tile_group + 1) % len(self.tile_list)
+                            self.tile_group = (self.tile_group + 1) % len(
+                                self.tile_list)
                             self.tile_variant = 0
                 if event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
-                        self. clicking = False
+                        self.clicking = False
                     if event.button == 3:
                         self.right_clicking = False
 
@@ -125,6 +133,8 @@ class Editor:  # Turns the game code into an object.
                         self.movement[3] = True
                     if event.key == pygame.K_g:
                         self.ongrid = not self.ongrid
+                    if event.key == pygame.K_t:
+                        self.tileMap.autotile()
                     if event.key ==pygame.K_o:
                         self.tileMap.save('map.json')
                     if event.key == pygame.K_LSHIFT:
