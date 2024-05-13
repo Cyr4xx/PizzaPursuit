@@ -47,15 +47,17 @@ class Game:  # Turns the game code into an object.
         self.tileMap.load('map.json')
 
         self.leaf_spawners = []
+        self.leaf_spawners = []
         for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
             self.leaf_spawners.append(
-                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 41, 48))
-            # Creates leaves to fall from trees and also finds tree location.
+                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 25, 15))
+        # Creates leaves to fall from trees and also finds tree location.
 
         for food in self.tileMap.extract([('food', 0), ('food', 1), ('food', 2), ('food', 3), ('food', 4), ('food', 5)]):
             if food['variant'] >= 0:
                 print(food['pos'], 'food')
-
+            else:
+                print(food['pos'], 'food')
 
         self.particles = []
 
