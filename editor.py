@@ -54,7 +54,7 @@ class Editor:  # Turns the game code into an object.
             self.display.fill((0, 0, 0)) # Sets background to black.
 
             self.scroll[0] += (self.movement[1] - self.movement[0]) * 2
-            self.scroll[0] += (self.movement[3] - self.movement[2]) * 2
+            self.scroll[1] += (self.movement[3] - self.movement[2]) * 2
             render_scroll = (int(self.scroll[0]), int(self.scroll[1])) # Camera movement. *****
 
             self.tileMap.render(self.display, offset=render_scroll) # Renders tilemap with camera offsets.
