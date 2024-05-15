@@ -9,6 +9,7 @@ from Scripts.tilemap import Tilemap
 from Scripts.clouds import Clouds
 from Scripts.particle import Particle
 
+
 class Game:  # Turns the game code into an object.
     def __init__(self):
         pygame.init()
@@ -60,6 +61,7 @@ class Game:  # Turns the game code into an object.
                 print(food['pos'], 'food')
 
         self.particles = []
+
 
         self.scroll = [0, 0]  # Creating Camera to follow player
 
