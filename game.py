@@ -5,7 +5,7 @@ import random
 
 from Scripts.Utils import load_image, load_images, Animation, load_images_tran
 from Scripts.Entities import PhysicsEntity, Player, Enemy
-from Scripts.tilemap import TileMap
+from Scripts.Tilemap import TileMap
 from Scripts.clouds import Clouds
 from Scripts.particle import Particle
 
@@ -47,18 +47,13 @@ class Game:  # Turns the game code into an object.
         self.player = Player(self, (50, 50), (8, 15))
 
         # Creates the player.
-<<<<<<< HEAD
-        self.tileMap = TileMap(self, tile_size=16)  # Creates clouds.
-=======
-        self.tileMap = Tilemap(self, tile_size=16)  # Loads all tiles and the level.
->>>>>>> feaabdf48bfdffd8f52d2bd099ddc5134b7cd10a
+        self.tileMap = TileMap(self, tile_size=16)  # Loads all tiles and the level.
         self.tileMap.load('map.json')
 
         self.leaf_spawners = []
         self.leaf_spawners = []
         for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
             self.leaf_spawners.append(
-<<<<<<< HEAD
                 pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 23, 13))
             # Creates leaves to fall from trees and also finds tree location.
         self.Enemies = []
@@ -67,17 +62,10 @@ class Game:  # Turns the game code into an object.
                 self.player.pos == spawner['pos']  # Player spawner
             else:
                 self.Enemies.append(Enemy(self, spawner['pos'], spawners['pos'], [8, 15]))
-=======
-                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 25, 15))
+                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 25, 15)
         # Creates leaves to fall from trees and also finds tree location.
 
-        for food in self.tileMap.extract([('food', 0), ('food', 1), ('food', 2), ('food', 3), ('food', 4), ('food', 5)]):
-            if food['variant'] >= 0:
-                print(food['pos'], 'food')
-            else:
-                print(food['pos'], 'food')
 
->>>>>>> feaabdf48bfdffd8f52d2bd099ddc5134b7cd10a
         self.particles = []
 
 

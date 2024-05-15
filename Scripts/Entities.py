@@ -75,16 +75,7 @@ class PhysicsEntity:  # Creates entity class group that handles the physics
 
         self.animation.update()
 
-    def collects(self, tileMap):
-        entity_rect = self.rect()
-        for rect in tileMap.collectable(self.pos):
-            if entity_rect.colliderect(rect):
-<<<<<<< HEAD
-                tileMap.FOOD = 1
-=======
-                print(2)
 
->>>>>>> feaabdf48bfdffd8f52d2bd099ddc5134b7cd10a
 
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False), (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))

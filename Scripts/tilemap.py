@@ -20,15 +20,12 @@ AUTOTILE_TYPES = {'grass', 'stone'}
 COLLECTABLES = {'food'}
 
 
-
 class TileMap:
     def __init__(self, game, tile_size=16):
         self.game = game
         self.tile_size = tile_size
         self.tileMap = {}
         self.offgrid_tiles = []
-
-
 
     def extract(self, id_pairs, keep=False): # Checks if tile is in a list to extract it and says where it is.
         matches = []
@@ -42,12 +39,9 @@ class TileMap:
             tile = self.tileMap[loc]
             if (tile['type'], tile['variant']) in id_pairs:
                 matches.append(tile.copy())
-<<<<<<< HEAD
                 matches[-1]['pos'] = matches[-1]['pos'.copy()]
                 # Changes tile position into pixels instead of coordinates.
-=======
                 matches[-1]['pos'] = matches[-1]['pos'].copy() # Changes tile position into pixels instead of coordinates.
->>>>>>> feaabdf48bfdffd8f52d2bd099ddc5134b7cd10a
                 matches[-1]['pos'][0] *= self.tile_size
                 matches[-1]['pos'][1] *= self.tile_size
                 if not keep:
@@ -109,6 +103,7 @@ class TileMap:
             if (tile['type'] in AUTOTILE_TYPES) and (
                     neighbors in AUTOTILE_MAP):
                 tile['variant'] = AUTOTILE_MAP[neighbors]
+
     def collectable(self, pos):
         rects = []
         for tile in self.tiles_around(pos):
