@@ -33,7 +33,7 @@ class Editor:  # Turns the game code into an object.
         self.tileMap = Tilemap(self, tile_size=16)  # Loads tiles and sets size.
 
         try:
-            self.tileMap.load('map.json') # Loads the level, if not found creates a new level.
+            self.tileMap.load('map2.json') # Loads the level, if not found creates a new level.
         except FileNotFoundError:
             pass
 
@@ -138,6 +138,7 @@ class Editor:  # Turns the game code into an object.
                         self.tileMap.autotile()
                     if event.key ==pygame.K_o:
                         self.tileMap.save('map.json')
+                        pygame.quit()
                     if event.key == pygame.K_LSHIFT:
                         self.shift = True
                 if event.type == pygame.KEYUP:
