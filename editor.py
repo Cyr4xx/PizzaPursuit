@@ -26,6 +26,7 @@ class Editor:  # Turns the game code into an object.
              'large_decor': load_images('tiles/large_decor'),
              'stone': load_images('tiles/stone'),
              'food': load_images('tiles/food'),
+
         }  # Loads assets for many aspects of the game.
 
         self.movement = [False, False, False, False] # Controls editor movement by setitng values to true when a key si pressed.
@@ -33,7 +34,7 @@ class Editor:  # Turns the game code into an object.
         self.tileMap = Tilemap(self, tile_size=16)  # Loads tiles and sets size.
 
         try:
-            self.tileMap.load('map2.json') # Loads the level, if not found creates a new level.
+            self.tileMap.load('data/maps/0.json') # Loads the level, if not found creates a new level.
         except FileNotFoundError:
             pass
 
@@ -84,6 +85,9 @@ class Editor:  # Turns the game code into an object.
                     tile_r = pygame.Rect(tile['pos'][0] - self.scroll[0], tile['pos'][1] - self.scroll[1], tile_img.get.width(), tile_img.get_height())
                     if tile_r.collidepoint(mpos):
                         self.tileMap.offgrid_tiles.remove(tile)
+
+            self.display.blit(current_tile_img, (5, 5))
+
             for event in pygame.event.get():  # Takes user input.
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -137,7 +141,7 @@ class Editor:  # Turns the game code into an object.
                     if event.key == pygame.K_t:
                         self.tileMap.autotile()
                     if event.key ==pygame.K_o:
-                        self.tileMap.save('map.json')
+                        self.tileMap.save('0.json')
                         pygame.quit()
                     if event.key == pygame.K_LSHIFT:
                         self.shift = True
@@ -150,6 +154,8 @@ class Editor:  # Turns the game code into an object.
                         self.movement[2] = False
                     if event.key == pygame.K_s:
                         self.movement[3] = False
+                    if event.key == pygame.K_LSHIFT:
+                        self.shift = False
 
             self.screen.blit(
                 pygame.transform.scale(self.display, self.screen.get_size()),

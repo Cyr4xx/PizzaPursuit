@@ -28,8 +28,6 @@ class Tilemap:
         self.tileMap = {}
         self.offgrid_tiles = []
 
-
-
     def extract(self, id_pairs, keep=False): # Checks if tile is in a list to extract it and says where it is.
         matches = []
         for tile in self.offgrid_tiles.copy():
@@ -74,6 +72,13 @@ class Tilemap:
         self.tileMap = map_data['tileMap']
         self.tile_size = map_data['tile_size']
         self.offgrid_tiles = map_data['offgrid']
+
+    def solid_check(self, pos):
+        tile_loc = str(int(pos[0] // self.tile_size)) + ';' + str(
+            int(pos[1] // self.tile_size))
+        if tile_loc in self.tileMap:
+            if self.tileMap[tile_loc]['type'] in PHYSICS_TILES:
+                return self.tileMap[tile_loc]
 
     def physics_rects_around(self, pos):
         rects = []

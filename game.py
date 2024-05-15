@@ -32,10 +32,13 @@ class Game:  # Turns the game code into an object.
              'player': load_image('Entities/player/idle/Pierre 1.png'),
              'background': load_image('background.png'),
              'clouds': load_images('clouds'),
-             'player/idle': Animation(load_images('entities/player/idle'), img_dur=6),
-             'player/run': Animation(load_images('entities/player/run'),
+             'player/idle': Animation(load_images('Entities/player/idle'), img_dur=6),
+             'player/run': Animation(load_images('Entities/player/run'),
                                      img_dur=4),
-             'player/jump': Animation(load_images('entities/player/jump')),
+             'enemy/idle' : Animation(load_images('Entities/enemy/idle'), img_dur=6),
+             'enemy/run': Animation(load_images('Entities/enemy/run'),
+                                    img_dur=4),
+             'player/jump': Animation(load_images('Entities/player/jump')),
              'particle/leaf': Animation(load_images('particles/leaf'), img_dur=20, loop=False),
         }  # Loads assets for many aspects of the game.
 
@@ -45,7 +48,10 @@ class Game:  # Turns the game code into an object.
 
         # Creates the player.
         self.tileMap = Tilemap(self, tile_size=16)  # Loads all tiles and the level.
-        self.tileMap.load('map.json')
+        self.load_level(0)
+
+    def load_level(self, map_id):
+        self.tileMap.load('data/maps/' + str(map_id) + '.json')
 
         self.leaf_spawners = []
         for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
@@ -54,6 +60,7 @@ class Game:  # Turns the game code into an object.
         # Creates leaves to fall from trees and also finds tree location.
 
         self.enemies = []
+
         for spawner in self.tileMap.extract(
                 [('spawners', 0), ('spawners', 1)]):
             if spawner['variant'] == 0:
