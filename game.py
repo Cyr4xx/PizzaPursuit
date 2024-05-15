@@ -48,7 +48,6 @@ class Game:  # Turns the game code into an object.
         self.tileMap.load('map.json')
 
         self.leaf_spawners = []
-        self.leaf_spawners = []
         for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
             self.leaf_spawners.append(
                 pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 25, 15))
@@ -61,7 +60,6 @@ class Game:  # Turns the game code into an object.
                 print(food['pos'], 'food')
 
         self.particles = []
-
 
         self.scroll = [0, 0]  # Creating Camera to follow player
 
