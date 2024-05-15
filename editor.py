@@ -5,6 +5,7 @@ import pygame
 from Scripts.Utils import load_images, load_images_tran
 from Scripts.tilemap import Tilemap
 
+
 render_scale = 2.0
 
 
