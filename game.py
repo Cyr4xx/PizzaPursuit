@@ -40,6 +40,7 @@ class Game:  # Turns the game code into an object.
                                     img_dur=4),
              'player/jump': Animation(load_images('Entities/player/jump')),
              'particle/leaf': Animation(load_images('particles/leaf'), img_dur=20, loop=False),
+             'projectile': load_image('projectile.png')
         }  # Loads assets for many aspects of the game.
 
         self.clouds = Clouds(self.assets['clouds'], count=16) # Prints clouds all over the background.
@@ -53,12 +54,6 @@ class Game:  # Turns the game code into an object.
     def load_level(self, map_id):
         self.tileMap.load('data/maps/' + str(map_id) + '.json')
 
-        self.leaf_spawners = []
-        for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
-            self.leaf_spawners.append(
-                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 25, 15))
-        # Creates leaves to fall from trees and also finds tree location.
-
         self.enemies = []
 
         for spawner in self.tileMap.extract(
@@ -67,6 +62,12 @@ class Game:  # Turns the game code into an object.
                 self.player.pos = spawner['pos']
             else:
                 self.enemies.append(Enemy(self, spawner['pos'], (8, 15)))
+
+        self.leaf_spawners = []
+        for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
+            self.leaf_spawners.append(
+                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 25, 15))
+        # Creates leaves to fall from trees and also finds tree location.
 
         self.projectiles = []
         self.particles = []
