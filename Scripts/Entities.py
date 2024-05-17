@@ -75,8 +75,6 @@ class PhysicsEntity:  # Creates entity class group that handles the physics
 
         self.animation.update()
 
-
-
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False), (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))
 
@@ -167,6 +165,8 @@ class Player(PhysicsEntity):  # Physics of the player
         else:
             self.set_action('idle')  # Sets player to idle if they are not
             # running or jumping.
+
+    def death (self, player, pos)
 
     def jump(self):
         if self.jumps:

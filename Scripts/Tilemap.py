@@ -27,6 +27,7 @@ class TileMap:
         self.tileMap = {}
         self.offgrid_tiles = []
 
+
     def extract(self, id_pairs, keep=False): # Checks if tile is in a list to extract it and says where it is.
         matches = []
         for tile in self.offgrid_tiles.copy():
@@ -103,6 +104,7 @@ class TileMap:
             if (tile['type'] in AUTOTILE_TYPES) and (
                     neighbors in AUTOTILE_MAP):
                 tile['variant'] = AUTOTILE_MAP[neighbors]
+
 
     def collectable(self, pos):
         rects = []

@@ -5,7 +5,7 @@ import random
 
 from Scripts.Utils import load_image, load_images, Animation, load_images_tran
 from Scripts.Entities import PhysicsEntity, Player, Enemy
-from Scripts.Tilemap import TileMap
+from Scripts.tilemap import TileMap
 from Scripts.clouds import Clouds
 from Scripts.particle import Particle
 
@@ -49,7 +49,6 @@ class Game:  # Turns the game code into an object.
         # Creates the player.
         self.tileMap = TileMap(self, tile_size=16)  # Loads all tiles and the level.
         self.tileMap.load('map.json')
-
         self.leaf_spawners = []
         self.leaf_spawners = []
         for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
@@ -61,7 +60,10 @@ class Game:  # Turns the game code into an object.
             if spawner['variant'] == 0:
                 self.player.pos == spawner['pos']  # Player spawner
             else:
-                self.Enemies.append(Enemy(self, spawner['pos'], spawners['pos'], [8, 15]))
+                self.Enemies.append(Enemy(self, spawners['pos'], [8, 15]))
+                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 25, 15)
+        # Creates leaves to fall from trees and also finds tree location.
+
                 pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 25, 15)
         # Creates leaves to fall from trees and also finds tree location.
 
@@ -104,7 +106,7 @@ class Game:  # Turns the game code into an object.
                 particle.render(self.display, offset=render_scroll) # Adds camera offsets to particles and renders them.
                 if particle.type == 'leaf':
                     particle.pos[0] += math.sin(
-                        particle.animation.frame * 0.035) * 0.3 #Animates the particle.
+                        particle.animation.frame * 0.035) * 0.3  # Animates the particle.
                 if kill:
                     self.particles.remove(particle) # Removes the particle.
 
