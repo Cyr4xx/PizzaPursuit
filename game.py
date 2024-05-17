@@ -3,8 +3,8 @@ import math
 import pygame
 import random
 
-from Scripts.Utils import load_image, load_images, Animation, load_images_tran
-from Scripts.Entities import PhysicsEntity, Player, Enemy
+from Scripts.Utils import load_image, load_images, Animation
+from Scripts.entities import PhysicsEntity, Player, Enemy
 from Scripts.tilemap import Tilemap
 from Scripts.clouds import Clouds
 from Scripts.particle import Particle
@@ -28,7 +28,6 @@ class Game:  # Turns the game code into an object.
              'grass': load_images('tiles/grass'),
              'large_decor': load_images('tiles/large_decor'),
              'stone': load_images('tiles/stone'),
-             'food': load_images_tran('tiles/food'),
              'player': load_image('Entities/player/idle/Pierre 1.png'),
              'background': load_image('background.png'),
              'clouds': load_images('clouds'),
@@ -40,7 +39,8 @@ class Game:  # Turns the game code into an object.
                                     img_dur=4),
              'player/jump': Animation(load_images('Entities/player/jump')),
              'particle/leaf': Animation(load_images('particles/leaf'), img_dur=20, loop=False),
-             'projectile': load_image('projectile.png')
+             'projectile': load_image('projectile.png'),
+             'gun': load_image('gun.png'),
         }  # Loads assets for many aspects of the game.
 
         self.clouds = Clouds(self.assets['clouds'], count=16) # Prints clouds all over the background.
@@ -63,10 +63,10 @@ class Game:  # Turns the game code into an object.
             else:
                 self.enemies.append(Enemy(self, spawner['pos'], (8, 15)))
 
-        self.leaf_spawners = []
-        for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
-            self.leaf_spawners.append(
-                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 25, 15))
+      #  self.leaf_spawners = []
+      #  for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
+        #    self.leaf_spawners.append(
+         #       pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 23, 12))
         # Creates leaves to fall from trees and also finds tree location.
 
         self.projectiles = []
@@ -90,10 +90,12 @@ class Game:  # Turns the game code into an object.
             self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30 # Allows scrolling of the camera.
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
-            for rect in self.leaf_spawners:  # Length * width of the tree gives this area. Multiplying by 49999 allows us to control the number of spawn per second.
-                if random.random() * 49999 < rect.width * rect.height: #This takes a random number and makes sure it places leaves in accordance with the hitbox of the tree.
-                    pos = (rect.x + random.random() * rect.width, rect.y + random.random() * rect.height) # Takes the x coordinate of the tree, multiples by random number.
-                    self.particles.append(Particle(self, 'leaf', pos, velocity=[-0.1, 0.3], frame=random.randint(0, 20))) # Spawns the particles and dictates the Velocity, timing, position and type.
+           # for rect in self.leaf_spawners:  # Length * width of the tree gives this area. Multiplying by 49999 allows us to control the number of spawn per second.
+              #  if random.random() * 49999 < rect.width * rect.height: #This takes a random number and makes sure it places leaves in accordance with the hitbox of the tree.
+                #    pos = (rect.x + random.random() * rect.width, rect.y + random.random() * rect.height) # Takes the x coordinate of the tree, multiples by random number.
+                  #  self.particles.append(
+                   #     Particle(self, 'leaf', pos, velocity=[-0.1, 0.3], frame=random.randint(0, 20))) # Spawns the particles and dictates the Velocity, timing, position and type.
+
 
             self.clouds.update()
             self.clouds.render(self.display, offset=render_scroll)
@@ -118,7 +120,7 @@ class Game:  # Turns the game code into an object.
                 self.display.blit(img, (
                 projectile[0][0] - img.get_width() / 2 - render_scroll[0],
                 projectile[0][1] - img.get_height() / 2 - render_scroll[1]))
-                if self.tilemap.solid_check(projectile[0]):
+                if self.tileMap.solid_check(projectile[0]):
                     self.projectiles.remove(projectile)
                     for i in range(4):
                         self.sparks.append(Spark(projectile[0],
@@ -132,20 +134,20 @@ class Game:  # Turns the game code into an object.
                     if self.player.rect().collidepoint(projectile[0]):
                         self.projectiles.remove(projectile)
                         self.dead += 1
-                        for i in range(30):
-                            angle = random.random() * math.pi * 2
-                            speed = random.random() * 5
-                            self.sparks.append(
-                                Spark(self.player.rect().center, angle,
-                                      2 + random.random()))
-                            self.particles.append(Particle(self, 'particle',
-                                                           self.player.rect().center,
-                                                           velocity=[math.cos(
-                                                               angle + math.pi) * speed * 0.5,
-                                                                     math.sin(
-                                                                         angle + math.pi) * speed * 0.5],
-                                                           frame=random.randint(
-                                                               0, 7)))
+                       #for i in range(30):
+                           # angle = random.random() * math.pi * 2
+                           # speed = random.random() * 5
+                           # self.sparks.append(
+                               # Spark(self.player.rect().center, angle,
+                              #        2 + random.random()))
+                        #    self.particles.append(Particle(self, 'particle',
+                                                        #   self.player.rect().center,
+                                                       #    velocity=[math.cos(
+                                                            #   angle + math.pi) * speed * 0.5,
+                                                            #         math.sin(
+                                                           #              angle + math.pi) * speed * 0.5],
+                                                        #   frame=random.randint(
+                                                          #     0, 7)))
 
             for spark in self.sparks.copy():
                 kill = spark.update()
