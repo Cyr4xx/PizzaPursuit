@@ -34,7 +34,7 @@ class Editor:  # Turns the game code into an object.
         self.tileMap = Tilemap(self, tile_size=16)  # Loads tiles and sets size.
 
         try:
-            self.tileMap.load('data/maps/0.json') # Loads the level, if not found creates a new level.
+            self.tileMap.load('0.json') # Loads the level, if not found creates a new level.
         except FileNotFoundError:
             pass
 
@@ -140,15 +140,15 @@ class Editor:  # Turns the game code into an object.
                     if event.key == pygame.K_s:
                         self.movement[3] = True
                     if event.key == pygame.K_g:
-                        self.ongrid = not self.ongrid
+                        self.ongrid = not self.ongrid #Places tiles off the 16x16 grid.
                     if event.key == pygame.K_t:
-                        self.tileMap.autotile()
+                        self.tileMap.autotile() # T - auto places correct tile type.
                     if event.key ==pygame.K_o:
-                        self.tileMap.save('0.json')
+                        self.tileMap.save('0.json') # O - saves edited level.
                         pygame.quit()
                     if event.key == pygame.K_LSHIFT:
-                        self.shift = True
-                if event.type == pygame.KEYUP:
+                        self.shift = True # If left shift is clicked, scrolls through selected tile type.
+                if event.type == pygame.KEYUP: # Checks if key is released
                     if event.key == pygame.K_a:
                         self.movement[0] = False
                     if event.key == pygame.K_d:
@@ -157,7 +157,7 @@ class Editor:  # Turns the game code into an object.
                         self.movement[2] = False
                     if event.key == pygame.K_s:
                         self.movement[3] = False
-                    if event.key == pygame.K_LSHIFT:
+                    if event.key == pygame.K_LSHIFT: # When left shift realeased, exits selection.
                         self.shift = False
 
             self.screen.blit(

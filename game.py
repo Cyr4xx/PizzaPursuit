@@ -10,6 +10,7 @@ from Scripts.clouds import Clouds
 from Scripts.particle import Particle
 from Scripts.sparks import Spark
 
+
 class Game:  # Turns the game code into an object.
     def __init__(self):
         pygame.init()
@@ -30,6 +31,7 @@ class Game:  # Turns the game code into an object.
              'stone': load_images('tiles/stone'),
              'player': load_image('Entities/player/idle/Pierre 1.png'),
              'background': load_image('background.png'),
+             'pause': load_image('pausemenu.png'),
              'clouds': load_images('clouds'),
              'player/idle': Animation(load_images('Entities/player/idle'), img_dur=12),
              'player/run': Animation(load_images('Entities/player/run'),
@@ -50,7 +52,7 @@ class Game:  # Turns the game code into an object.
         # Creates the player.
         self.tileMap = Tilemap(self, tile_size=16)  # Loads all tiles and the level.
         self.load_level(0)
-
+        self.pause = False
     def load_level(self, map_id):
         self.tileMap.load('data/maps/' + str(map_id) + '.json')
 
@@ -79,7 +81,8 @@ class Game:  # Turns the game code into an object.
 
     def run(self):
         while True:
-            self.display.blit(self.assets['background'], (0, 0))  # Renders background objects.
+            if not self.pause:
+                self.display.blit(self.assets['background'], (0, 0))  # Renders background image.
 
             if self.dead:
                 self.dead += 1
@@ -96,44 +99,42 @@ class Game:  # Turns the game code into an object.
                   #  self.particles.append(
                    #     Particle(self, 'leaf', pos, velocity=[-0.1, 0.3], frame=random.randint(0, 20))) # Spawns the particles and dictates the Velocity, timing, position and type.
 
+            if not self.pause:
+                self.clouds.update()
+                self.clouds.render(self.display, offset=render_scroll)
+                self.tileMap.render(self.display, offset=render_scroll)
 
-            self.clouds.update()
-            self.clouds.render(self.display, offset=render_scroll)
+                for enemy in self.enemies.copy():
+                    kill = enemy.update(self.tileMap, (0, 0))
+                    enemy.render(self.display, offset=render_scroll)
+                    if kill:
+                        self.enemies.remove(enemy)
 
-            self.tileMap.render(self.display, offset=render_scroll)
+                if not self.dead:
+                    self.player.update(self.tileMap,(self.movement[1] - self.movement[0], 0))
+                    self.player.render(self.display, offset=render_scroll)
 
-            for enemy in self.enemies.copy():
-                kill = enemy.update(self.tileMap, (0, 0))
-                enemy.render(self.display, offset=render_scroll)
-                if kill:
-                    self.enemies.remove(enemy)
-
-            if not self.dead:
-                self.player.update(self.tileMap,
-                                   (self.movement[1] - self.movement[0], 0))
-                self.player.render(self.display, offset=render_scroll)
-
-            for projectile in self.projectiles.copy():
-                projectile[0][0] += projectile[1]
-                projectile[2] += 1
-                img = self.assets['projectile']
-                self.display.blit(img, (
-                projectile[0][0] - img.get_width() / 2 - render_scroll[0],
-                projectile[0][1] - img.get_height() / 2 - render_scroll[1]))
-                if self.tileMap.solid_check(projectile[0]):
-                    self.projectiles.remove(projectile)
-                    for i in range(4):
-                        self.sparks.append(Spark(projectile[0],
-                                                 random.random() - 0.5 + (
+                for projectile in self.projectiles.copy():
+                    projectile[0][0] += projectile[1]
+                    projectile[2] += 1
+                    img = self.assets['projectile']
+                    self.display.blit(img, (
+                    projectile[0][0] - img.get_width() / 2 - render_scroll[0],
+                    projectile[0][1] - img.get_height() / 2 - render_scroll[1]))
+                    if self.tileMap.solid_check(projectile[0]):
+                        self.projectiles.remove(projectile)
+                        for i in range(4):
+                            self.sparks.append(Spark(projectile[0], random.random() - 0.5 + (
                                                      math.pi if projectile[
                                                                     1] > 0 else 0),
                                                  2 + random.random()))
-                elif projectile[2] > 360:
-                    self.projectiles.remove(projectile)
-                elif abs(self.player.dashing) < 50:
-                    if self.player.rect().collidepoint(projectile[0]):
+
+                    elif projectile[2] > 360:
                         self.projectiles.remove(projectile)
-                        self.dead += 1
+                    elif abs(self.player.dashing) < 50:
+                        if self.player.rect().collidepoint(projectile[0]):
+                            self.projectiles.remove(projectile)
+                            self.dead += 1
                        #for i in range(30):
                            # angle = random.random() * math.pi * 2
                            # speed = random.random() * 5
@@ -176,14 +177,30 @@ class Game:  # Turns the game code into an object.
                         self.movement[1] = True
                     if event.key == pygame.K_w:
                         self.player.jump()
+                    if event.key == pygame.K_e:
+                        from mainmenu import main_menu
+                        self.screen = pygame.display.set_mode((1080, 1022))
+                        main_menu()
+                    if event.key == pygame.K_ESCAPE:
+                        if self.pause:
+                            self.pause = False
+                        else:
+                            self.pause = True
+                            self.screen.fill('White')
+                            self.display.blit(self.assets['pause'],
+                                              (0, 0))
+
+
                 if event.type == pygame.K_w:
                     if event.key == pygame.K_s:
                         self.movement[0] = False
                     if event.key == pygame.K_a:
                         self.movement[1] = False
 
+
                 if event.type == pygame.KEYUP:  # Takes user input and checks
-                    # if a specific key is held down to move.
+                    # if a specific key is released to move.
+                    # Sets movement flags in accordance to keys held and unheld.
                     if event.key == pygame.K_a:
                         self.movement[0] = False
                     if event.key == pygame.K_d:

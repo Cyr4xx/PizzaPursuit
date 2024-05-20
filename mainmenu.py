@@ -127,6 +127,7 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:  # When each button is clicked the following things will happen.
                 if play_button.checkForInput(menu_mouse_pos):
                     from game import Game
+                    Game().run()
                 if tutorial_button.checkForInput(menu_mouse_pos):
                     options()
                 if quit_button.checkForInput(menu_mouse_pos):
