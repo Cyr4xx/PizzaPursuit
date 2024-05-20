@@ -86,6 +86,12 @@ class Game:  # Turns the game code into an object.
         self.scroll = [0, 0]  # Creating Camera to follow player
         self.dead = 0
 
+    def check_collision_with_enemies(self):
+        player_rect = self.player.rect()
+        for enemy in self.enemies:
+            if player_rect.colliderect(enemy.rect()):
+                self.dead = 1  # Trigger death sequence
+
     def run(self):
         while True:
             if not self.pause:
@@ -118,6 +124,7 @@ class Game:  # Turns the game code into an object.
                         self.enemies.remove(enemy)
 
                 if not self.dead:
+                    self.check_collision_with_enemies()
                     self.player.update(self.tileMap,(self.movement[1] - self.movement[0], 0))
                     self.player.render(self.display, offset=render_scroll)
 
