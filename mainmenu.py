@@ -108,19 +108,13 @@ def main_menu():
                                  text_input="Tutorial", font=get_font(75), base_color="#d7fcd4",
                                  hovering_color="White")
 
-<<<<<<< HEAD
-        maker_button = Button(image=pygame.image.load("data/Options.png"),
-                              pos=(540, 550),
-                              text_input="Level Editor", font=get_font(75),
-                              base_color="#d7fcd4",
-                              hovering_color="White")
-=======
+
         maker_button = Button(image=pygame.image.load("data/Maker.png"),
                                 pos=(540, 550),
                                 text_input="Level Editor", font=get_font(75),
                                 base_color="#d7fcd4",
                                 hovering_color="White")
->>>>>>> feaabdf48bfdffd8f52d2bd099ddc5134b7cd10a
+
 
         # Places an options button.
         quit_button = Button(image=pygame.image.load("data/quit.png"),

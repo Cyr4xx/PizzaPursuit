@@ -177,7 +177,7 @@ class Game:  # Turns the game code into an object.
                         self.movement[1] = True
                     if event.key == pygame.K_w:
                         self.player.jump()
-                    if event.key == pygame.K_e:
+                    if event.key == pygame.K_o:
                         from mainmenu import main_menu
                         self.screen = pygame.display.set_mode((1080, 1022))
                         main_menu()
