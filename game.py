@@ -36,7 +36,7 @@ class Game:  # Turns the game code into an object.
              'player/idle': Animation(load_images('Entities/player/idle'), img_dur=12),
              'player/run': Animation(load_images('Entities/player/run'),
                                      img_dur=4),
-             'enemy/idle' : Animation(load_images('Entities/enemy/idle'), img_dur=6),
+             'enemy/idle': Animation(load_images('Entities/enemy/idle'), img_dur=6),
              'enemy/run': Animation(load_images('Entities/enemy/run'),
                                     img_dur=4),
              'player/jump': Animation(load_images('Entities/player/jump')),
@@ -45,7 +45,7 @@ class Game:  # Turns the game code into an object.
              'gun': load_image('gun.png'),
         }  # Loads assets for many aspects of the game.
 
-        self.clouds = Clouds(self.assets['clouds'], count=16) # Prints clouds all over the background.
+        self.clouds = Clouds(self.assets['clouds'], count=16)  # Prints clouds all over the background.
 
         self.player = Player(self, (50, 50), (8, 15))
 
@@ -53,22 +53,23 @@ class Game:  # Turns the game code into an object.
         self.tileMap = Tilemap(self, tile_size=16)  # Loads all tiles and the level.
         self.load_level(0)
         self.pause = False
+
     def load_level(self, map_id):
         self.tileMap.load('data/maps/' + str(map_id) + '.json')
 
         self.enemies = []
-
         for spawner in self.tileMap.extract(
                 [('spawners', 0), ('spawners', 1)]):
             if spawner['variant'] == 0:
                 self.player.pos = spawner['pos']
+                self.player.air_time = 0
             else:
                 self.enemies.append(Enemy(self, spawner['pos'], (8, 15)))
 
-      #  self.leaf_spawners = []
-      #  for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
+        #  self.leaf_spawners = []
+        #  for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
         #    self.leaf_spawners.append(
-         #       pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 23, 12))
+        #       pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 23, 12))
         # Creates leaves to fall from trees and also finds tree location.
 
         self.projectiles = []
@@ -77,7 +78,6 @@ class Game:  # Turns the game code into an object.
 
         self.scroll = [0, 0]  # Creating Camera to follow player
         self.dead = 0
-
 
     def run(self):
         while True:

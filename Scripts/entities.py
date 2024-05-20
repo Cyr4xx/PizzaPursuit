@@ -5,6 +5,7 @@ import pygame
 
 from Scripts.sparks import Spark
 
+
 class PhysicsEntity: # Creates entity class group that handles the physics
     def __init__(self, game, type, pos, size):  # Defines game initialization
         self.game = game # Makes anything in the game accessible through the entity
@@ -29,14 +30,14 @@ class PhysicsEntity: # Creates entity class group that handles the physics
             self.action = action
             self.animation = self.game.assets[self.type + '/' + self.action].copy()
         
-    def update(self, tilemap, movement=(0, 0)):
+    def update(self, tileMap, movement=(0, 0)):
         self.collisions = {'up': False, 'down': False, 'right': False, 'left': False}
         
         frame_movement = (movement[0] + self.velocity[0], movement[1] + self.velocity[1])
         
         self.pos[0] += frame_movement[0]
         entity_rect = self.rect()
-        for rect in tilemap.physics_rects_around(self.pos):
+        for rect in tileMap.physics_rects_around(self.pos):
             if entity_rect.colliderect(rect):
                 if frame_movement[0] > 0:
                     entity_rect.right = rect.left
@@ -48,7 +49,7 @@ class PhysicsEntity: # Creates entity class group that handles the physics
         
         self.pos[1] += frame_movement[1]
         entity_rect = self.rect()
-        for rect in tilemap.physics_rects_around(self.pos):
+        for rect in tileMap.physics_rects_around(self.pos):
             if entity_rect.colliderect(rect):
                 if frame_movement[1] > 0:
                     entity_rect.bottom = rect.top
@@ -81,9 +82,9 @@ class Enemy(PhysicsEntity):
         
         self.walking = 0
         
-    def update(self, tilemap, movement=(0, 0)):
+    def update(self, tileMap, movement=(0, 0)):
         if self.walking:
-            if tilemap.solid_check((self.rect().centerx + (-7 if self.flip else 7), self.pos[1] + 23)):
+            if tileMap.solid_check((self.rect().centerx + (-7 if self.flip else 7), self.pos[1] + 23)):
                 if (self.collisions['right'] or self.collisions['left']):
                     self.flip = not self.flip
                 else:
@@ -105,7 +106,7 @@ class Enemy(PhysicsEntity):
         elif random.random() < 0.01:
             self.walking = random.randint(30, 120)
         
-        super().update(tilemap, movement=movement)
+        super().update(tileMap, movement=movement)
         
         if movement[0] != 0:
             self.set_action('run')
@@ -129,11 +130,15 @@ class Player(PhysicsEntity):
         self.wall_slide = False
         self.dashing = 0
     
-    def update(self, tilemap, movement=(0, 0)):
-        super().update(tilemap, movement=movement)
+    def update(self, tileMap, movement=(0, 0)):
+        super().update(tileMap, movement=movement)
 
         self.air_time += 1 # Checks air time and applies a jump animation
         # when jumping.
+
+        if self.air_time > 120:  # If in the air for more than three seconds
+            self.game.dead += 1
+
         if self.collisions['down']:
             self.air_time = 0
             self.jumps = 2
