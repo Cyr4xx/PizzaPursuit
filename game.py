@@ -3,8 +3,8 @@ import math
 import pygame
 import random
 
-from Scripts.Utils import load_image, load_images, Animation
-from Scripts.entities import PhysicsEntity, Player, Enemy
+from Scripts.Utils import load_image, load_images, Animation, load_images_tran
+from Scripts.entities import PhysicsEntity, Player, Enemy, Tomato
 from Scripts.tilemap import Tilemap
 from Scripts.clouds import Clouds
 from Scripts.particle import Particle
@@ -43,6 +43,9 @@ class Game:  # Turns the game code into an object.
              'particle/leaf': Animation(load_images('particles/leaf'), img_dur=20, loop=False),
              'projectile': load_image('projectile.png'),
              'gun': load_image('gun.png'),
+             'tomato/idle': Animation(load_images_tran('Entities/tomato/idle'), img_dur=6),
+             'tomato/run': Animation(load_images_tran('Entities/tomato/run'),
+                                     img_dur=6),
         }  # Loads assets for many aspects of the game.
 
         self.clouds = Clouds(self.assets['clouds'], count=16)  # Prints clouds all over the background.
@@ -59,12 +62,15 @@ class Game:  # Turns the game code into an object.
 
         self.enemies = []
         for spawner in self.tileMap.extract(
-                [('spawners', 0), ('spawners', 1)]):
+                [('spawners', 0), ('spawners', 1), ('spawners', 2)]):
             if spawner['variant'] == 0:
                 self.player.pos = spawner['pos']
                 self.player.air_time = 0
-            else:
+            elif spawner['variant'] == 1:
                 self.enemies.append(Enemy(self, spawner['pos'], (8, 15)))
+            elif spawner['variant'] == 2:
+                self.enemies.append(Tomato(self, spawner['pos'], (26, 23)))
+
 
         #  self.leaf_spawners = []
         #  for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
