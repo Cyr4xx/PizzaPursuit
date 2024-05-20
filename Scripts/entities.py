@@ -218,27 +218,45 @@ class Tomato(PhysicsEntity):
 class Banana(PhysicsEntity):
     def __init__(self, game, pos, size):
         super().__init__(game, 'banana', pos, size)
-
         self.walking = 0
+        self.follow_distance = 100  # Set the distance within which the Banana will follow the player
 
     def update(self, tileMap, movement=(0, 0)):
-        if self.walking:
-            if tileMap.solid_check((self.rect().centerx + (
-            -7 if self.flip else 7), self.pos[1] + 23)):
-                if (self.collisions['right'] or self.collisions['left']):
-                    self.flip = not self.flip
-                else:
-                    movement = (
-                    movement[0] - 0.5 if self.flip else 0.5, movement[1])
-            else:
-                self.flip = not self.flip
-            self.walking = max(0, self.walking - 1)
-            if not self.walking:
-                dis = (self.game.player.pos[0] - self.pos[0],
-                       self.game.player.pos[1] - self.pos[1])
+        player_pos = self.game.player.pos
+        dx = player_pos[0] - self.pos[0]
+        dy = player_pos[1] - self.pos[1]
+        distance = math.sqrt(dx**2 + dy**2)
 
-        elif random.random() < 0.01:
-            self.walking = random.randint(30, 120)
+        if distance < self.follow_distance:
+            # Player is within follow distance
+            if distance != 0:
+                # Normalize the direction vector
+                direction_x = dx / distance
+                direction_y = dy / distance
+
+                # Set the movement towards the player
+                movement = (direction_x * 0.5, direction_y * 0.5)
+
+                # Flip the sprite based on the direction
+                if direction_x > 0:
+                    self.flip = False
+                else:
+                    self.flip = True
+        else:
+            # Default walking behavior
+            if self.walking:
+                if tileMap.solid_check((self.rect().centerx + (-7 if self.flip else 7), self.pos[1] + 23)):
+                    if self.collisions['right'] or self.collisions['left']:
+                        self.flip = not self.flip
+                    else:
+                        movement = (movement[0] - 0.5 if self.flip else 0.5, movement[1])
+                else:
+                    self.flip = not self.flip
+                self.walking = max(0, self.walking - 1)
+                if not self.walking:
+                    dis = (self.game.player.pos[0] - self.pos[0], self.game.player.pos[1] - self.pos[1])
+            elif random.random() < 0.01:
+                self.walking = random.randint(30, 120)
 
         super().update(tileMap, movement=movement)
 
@@ -249,5 +267,4 @@ class Banana(PhysicsEntity):
 
     def render(self, surf, offset=(0, 0)):
         super().render(surf, offset=offset)
-
 
