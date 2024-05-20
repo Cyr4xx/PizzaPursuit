@@ -75,7 +75,8 @@ class PhysicsEntity: # Creates entity class group that handles the physics
         
     def render(self, surf, offset=(0, 0)):
         surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False), (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))
-        
+
+
 class Enemy(PhysicsEntity):
     def __init__(self, game, pos, size):
         super().__init__(game, 'enemy', pos, size)
@@ -121,6 +122,7 @@ class Enemy(PhysicsEntity):
             surf.blit(pygame.transform.flip(self.game.assets['gun'], True, False), (self.rect().centerx - 4 - self.game.assets['gun'].get_width() - offset[0], self.rect().centery - offset[1]))
         else:
             surf.blit(self.game.assets['gun'], (self.rect().centerx + 4 - offset[0], self.rect().centery - offset[1]))
+
 
 class Player(PhysicsEntity):
     def __init__(self, game, pos, size):
