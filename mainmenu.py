@@ -11,11 +11,14 @@ pygame.display.set_caption("Pizza Pursuit: Chef's Revenge")
 bg = pygame.image.load("data/images/bg.png")  # Menu background.
 ss = pygame.image.load("data/Pizza.png")  # Splash Screen.
 
+
 def get_font(size):
     return pygame.font.Font("data/PixelatedPusab.ttf", size)
 
+
 # Takes the font file I provided, and allows utilization of the fonts for
 # the menu screen.
+
 
 window.fill('white')
 window.blit(ss, (0, 0))  # Places background photo.
@@ -49,6 +52,7 @@ def play():
 
         pygame.display.update()
 
+
 def options():
     while True:
         options_mouse_pos = pygame.mouse.get_pos()  # Takes mouse position
@@ -80,6 +84,7 @@ def options():
 
         pygame.display.update()
 
+
 def main_menu():
     while True:
 
@@ -103,11 +108,19 @@ def main_menu():
                                  text_input="Tutorial", font=get_font(75), base_color="#d7fcd4",
                                  hovering_color="White")
 
+<<<<<<< HEAD
+        maker_button = Button(image=pygame.image.load("data/Options.png"),
+                              pos=(540, 550),
+                              text_input="Level Editor", font=get_font(75),
+                              base_color="#d7fcd4",
+                              hovering_color="White")
+=======
         maker_button = Button(image=pygame.image.load("data/Maker.png"),
                                 pos=(540, 550),
                                 text_input="Level Editor", font=get_font(75),
                                 base_color="#d7fcd4",
                                 hovering_color="White")
+>>>>>>> feaabdf48bfdffd8f52d2bd099ddc5134b7cd10a
 
         # Places an options button.
         quit_button = Button(image=pygame.image.load("data/quit.png"),
@@ -137,5 +150,7 @@ def main_menu():
                     from editor import Editor
 
         pygame.display.update()
+
+
 time.sleep(4)
 main_menu()
