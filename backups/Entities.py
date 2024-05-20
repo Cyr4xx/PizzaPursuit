@@ -87,7 +87,7 @@ class PhysicsEntity:  # Creates entity class group that handles the physics
 
 class Enemy(PhysicsEntity):
     def __init__(self, game, pos, size):
-        super().__init__(game, 'enemy', pos, size)
+        super().__init__(game, 'monkey', pos, size)
 
         self.walking = 0
 

@@ -4,7 +4,7 @@ import pygame
 import random
 
 from Scripts.Utils import load_image, load_images, Animation, load_images_tran
-from Scripts.entities import PhysicsEntity, Player, Enemy, Tomato
+from Scripts.entities import PhysicsEntity, Player, Enemy, Tomato, Banana
 from Scripts.tilemap import Tilemap
 from Scripts.clouds import Clouds
 from Scripts.particle import Particle
@@ -36,16 +36,20 @@ class Game:  # Turns the game code into an object.
              'player/idle': Animation(load_images('Entities/player/idle'), img_dur=12),
              'player/run': Animation(load_images('Entities/player/run'),
                                      img_dur=4),
-             'enemy/idle': Animation(load_images('Entities/enemy/Idle'), img_dur=6),
-             'enemy/run': Animation(load_images('Entities/enemy/Run'),
+             'monkey/idle': Animation(load_images('Entities/monkey/idle'), img_dur=6),
+             'monkey/run': Animation(load_images('Entities/monkey/run'),
                                     img_dur=6),
-             'enemy/attack': Animation(load_images('Entities/enemy/Attack'), img_dur=6),
+             'monkey/attack': Animation(load_images('Entities/monkey/Attack'), img_dur=6),
              'player/jump': Animation(load_images('Entities/player/jump')),
              'particle/leaf': Animation(load_images('particles/leaf'), img_dur=20, loop=False),
              'projectile': load_image('projectile.png'),
              'gun': load_image('gun.png'),
              'tomato/idle': Animation(load_images_tran('Entities/tomato/idle'), img_dur=6),
              'tomato/run': Animation(load_images_tran('Entities/tomato/run'),
+                                     img_dur=6),
+             'banana/idle': Animation(load_images_tran('Entities/banana/idle'),
+                                      img_dur=6),
+             'banana/run': Animation(load_images_tran('Entities/banana/run'),
                                      img_dur=6),
         }  # Loads assets for many aspects of the game.
 
@@ -63,20 +67,22 @@ class Game:  # Turns the game code into an object.
 
         self.enemies = []
         for spawner in self.tileMap.extract(
-                [('spawners', 0), ('spawners', 1), ('spawners', 2)]):
+                [('spawners', 0), ('spawners', 1), ('spawners', 2), ('spawners', 3)]):
             if spawner['variant'] == 0:
                 self.player.pos = spawner['pos']
                 self.player.air_time = 0
             elif spawner['variant'] == 1:
-                self.enemies.append(Enemy(self, spawner['pos'], (8, 15)))
+                self.enemies.append(Enemy(self, spawner['pos'], (8, 12)))
             elif spawner['variant'] == 2:
                 self.enemies.append(Tomato(self, spawner['pos'], (26, 23)))
+            else:
+                self.enemies.append(Banana(self, spawner['pos'], (10, 14)))
 
 
-        #  self.leaf_spawners = []
-        #  for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
-        #    self.leaf_spawners.append(
-        #       pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 23, 12))
+        self.leaf_spawners = []
+        for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
+            self.leaf_spawners.append(
+               pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 23, 12))
         # Creates leaves to fall from trees and also finds tree location.
 
         self.projectiles = []
@@ -106,11 +112,11 @@ class Game:  # Turns the game code into an object.
             self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30 # Allows scrolling of the camera.
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
-           # for rect in self.leaf_spawners:  # Length * width of the tree gives this area. Multiplying by 49999 allows us to control the number of spawn per second.
-              #  if random.random() * 49999 < rect.width * rect.height: #This takes a random number and makes sure it places leaves in accordance with the hitbox of the tree.
-                #    pos = (rect.x + random.random() * rect.width, rect.y + random.random() * rect.height) # Takes the x coordinate of the tree, multiples by random number.
-                  #  self.particles.append(
-                   #     Particle(self, 'leaf', pos, velocity=[-0.1, 0.3], frame=random.randint(0, 20))) # Spawns the particles and dictates the Velocity, timing, position and type.
+            for rect in self.leaf_spawners:  # Length * width of the tree gives this area. Multiplying by 49999 allows us to control the number of spawn per second.
+              if random.random() * 49999 < rect.width * rect.height: #This takes a random number and makes sure it places leaves in accordance with the hitbox of the tree.
+                pos = (rect.x + random.random() * rect.width, rect.y + random.random() * rect.height) # Takes the x coordinate of the tree, multiples by random number.
+                self.particles.append(
+                        Particle(self, 'leaf', pos, velocity=[-0.1, 0.3], frame=random.randint(0, 20))) # Spawns the particles and dictates the Velocity, timing, position and type.
 
             if not self.pause:
                 self.clouds.update()
