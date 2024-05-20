@@ -161,7 +161,7 @@ class Game:  # Turns the game code into an object.
                 particle.render(self.display, offset=render_scroll) # Adds camera offsets to particles and renders them.
                 if particle.type == 'leaf':
                     particle.pos[0] += math.sin(
-                        particle.animation.frame * 0.035) * 0.3 #Animates the particle.
+                        particle.animation.frame * 0.035) * 0.3  # Animates the particle.
                 if kill:
                     self.particles.remove(particle) # Removes the particle.
 
