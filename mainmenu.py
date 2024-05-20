@@ -14,8 +14,6 @@ ss = pygame.image.load("data/Pizza.png")  # Splash Screen.
 
 def get_font(size):
     return pygame.font.Font("data/PixelatedPusab.ttf", size)
-
-
 # Takes the font file I provided, and allows utilization of the fonts for
 # the menu screen.
 
@@ -61,7 +59,8 @@ def play():
                 if play1.checkForInput(play_mouse_pos):
                     from game import Game
                     Game().run()
-
+                if play2.checkForInput(play_mouse_pos):
+                    Game().load_level =
         pygame.display.update()
 
 

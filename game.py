@@ -176,14 +176,13 @@ class Game:  # Turns the game code into an object.
                 if kill:
                     self.sparks.remove(spark)
 
-            for particle in self.particles.copy(): # Copies the particles so it can be removed each iteration.
-                kill = particle.update() # Updates the particle allowing them to be deleted.
-                particle.render(self.display, offset=render_scroll) # Adds camera offsets to particles and renders them.
-                if particle.type == 'leaf':
-                    particle.pos[0] += math.sin(
-                        particle.animation.frame * 0.035) * 0.3  # Animates the particle.
-                if kill:
-                    self.particles.remove(particle) # Removes the particle.
+                for particle in self.particles.copy(): # Copies the particles so it can be removed each iteration.
+                    kill = particle.update() # Updates the particle allowing them to be deleted.
+                    particle.render(self.display, offset=render_scroll) # Adds camera offsets to particles and renders them.
+                    if particle.type == 'leaf':
+                        particle.pos[0] += math.sin(particle.animation.frame * 0.035) * 0.3  # Animates the particle.
+                    if kill:
+                        self.particles.remove(particle) # Removes the particle.
 
             for event in pygame.event.get():  # Takes user input.
                 if event.type == pygame.QUIT:
