@@ -30,7 +30,7 @@ class Game:  # Turns the game code into an object.
              'large_decor': load_images('tiles/large_decor'),
              'stone': load_images('tiles/stone'),
              'player': load_image('Entities/player/idle/Pierre 1.png'),
-             'background': load_image('background.png'),
+             'background': load_image('background2.png'),
              'pause': load_image('pausemenu.png'),
              'clouds': load_images('clouds'),
              'player/idle': Animation(load_images('Entities/player/idle'), img_dur=12),
@@ -59,7 +59,7 @@ class Game:  # Turns the game code into an object.
 
         # Creates the player.
         self.tileMap = Tilemap(self, tile_size=16)  # Loads all tiles and the level.
-        self.load_level(0)
+        self.load_level(1)
         self.pause = False
 
     def load_level(self, map_id):
@@ -79,7 +79,6 @@ class Game:  # Turns the game code into an object.
                 self.enemies.append(Banana(self, spawner['pos'], (10, 14)))
 
 
-        self.leaf_spawners = []
         for tree in self.tileMap.extract([('large_decor', 2)], keep=True):
             self.leaf_spawners.append(
                pygame.Rect(4 + tree['pos'][0], 4 + tree['pos'][1], 23, 12))
@@ -106,21 +105,14 @@ class Game:  # Turns the game code into an object.
             if self.dead:
                 self.dead += 1
                 if self.dead > 40:
-                    self.load_level(0)
+                    self.load_level(1)
 
             self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
             self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30 # Allows scrolling of the camera.
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
-            for rect in self.leaf_spawners:  # Length * width of the tree gives this area. Multiplying by 49999 allows us to control the number of spawn per second.
-              if random.random() * 49999 < rect.width * rect.height: #This takes a random number and makes sure it places leaves in accordance with the hitbox of the tree.
-                pos = (rect.x + random.random() * rect.width, rect.y + random.random() * rect.height) # Takes the x coordinate of the tree, multiples by random number.
-                self.particles.append(
-                        Particle(self, 'leaf', pos, velocity=[-0.3, 0.2], frame=random.randint(0, 20))) # Spawns the particles and dictates the Velocity, timing, position and type.
 
             if not self.pause:
-                self.clouds.update()
-                self.clouds.render(self.display, offset=render_scroll)
                 self.tileMap.render(self.display, offset=render_scroll)
 
                 for enemy in self.enemies.copy():
@@ -175,14 +167,6 @@ class Game:  # Turns the game code into an object.
                 spark.render(self.display, offset=render_scroll)
                 if kill:
                     self.sparks.remove(spark)
-
-                for particle in self.particles.copy(): # Copies the particles so it can be removed each iteration.
-                    kill = particle.update() # Updates the particle allowing them to be deleted.
-                    particle.render(self.display, offset=render_scroll) # Adds camera offsets to particles and renders them.
-                    if particle.type == 'leaf':
-                        particle.pos[0] += math.sin(particle.animation.frame * 0.035) * 0.3  # Animates the particle.
-                    if kill:
-                        self.particles.remove(particle) # Removes the particle.
 
             for event in pygame.event.get():  # Takes user input.
                 if event.type == pygame.QUIT:

@@ -34,7 +34,7 @@ class Editor:  # Turns the game code into an object.
         self.tileMap = Tilemap(self, tile_size=16)  # Loads tiles and sets size.
 
         try:
-            self.tileMap.load('0.json') # Loads the level, if not found creates a new level.
+            self.tileMap.load('data/maps/1.json') # Loads the level, if not found creates a new level.
         except FileNotFoundError:
             pass
 

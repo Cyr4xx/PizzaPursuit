@@ -3,6 +3,7 @@ import sys
 from button import Button
 import time
 
+
 pygame.init()
 window = pygame.display.set_mode((1080, 1022))  # Creates game
 # window. screen = window
@@ -60,7 +61,9 @@ def play():
                     from game import Game
                     Game().run()
                 if play2.checkForInput(play_mouse_pos):
-                    Game().load_level =
+                    from level2 import Game
+                    Game().run()
+
         pygame.display.update()
 
 
@@ -150,7 +153,7 @@ def main_menu():
                     pygame.quit()
                     sys.exit()
                 if maker_button.checkForInput(menu_mouse_pos):
-                    from editor import Editor
+                    pass
 
         pygame.display.update()
 
