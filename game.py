@@ -117,6 +117,17 @@ class Game:  # Turns the game code into an object.
                 self.level = min(self.level + 1, len(os.listdir(
                     'data/maps')) - 1)  # Move to the next level
                 self.load_level(self.level)  # Load the next level
+
+                if self.level == 1:
+                    pygame.mixer.music.load('data/music2.mp3')
+                    pygame.mixer.music.set_volume(0.5)
+                    pygame.mixer.music.play(-1)
+
+                if self.level == 2:
+                    pygame.mixer.music.load('data/music3.mp3')
+                    pygame.mixer.music.set_volume(0.5)
+                    pygame.mixer.music.play(-1)
+
                 self.transition_timer = 0  # Reset transition timer
 
     def load_level(self, map_id):
@@ -129,7 +140,8 @@ class Game:  # Turns the game code into an object.
                 self.player.air_time = 0
             elif spawner['variant'] == 1:
                 self.enemies.append(Enemy(self, spawner['pos'], (8, 12)))
-            elif spawner['variant'] == 2:
+            elif spawner['variant'
+            ] == 2:
                 self.enemies.append(Tomato(self, spawner['pos'], (26, 23)))
             else:
                 self.enemies.append(Banana(self, spawner['pos'], (10, 14)))
@@ -163,10 +175,10 @@ class Game:  # Turns the game code into an object.
                 self.sfx['hit'].play()
 
     def run(self):
-        pygame.mixer.music.load('data/music.mp3')
-        pygame.mixer.music.set_volume(0.5)
-        pygame.mixer.music.play(-1)
-
+        if self.level == 0:
+            pygame.mixer.music.load('data/music.mp3')
+            pygame.mixer.music.set_volume(0.5)
+            pygame.mixer.music.play(-1)
 
         while True:
 
