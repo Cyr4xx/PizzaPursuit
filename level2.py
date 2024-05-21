@@ -31,7 +31,7 @@ class Game:  # Turns the game code into an object.
             'stone': load_images('tiles/stone'),
             'lava': load_images('tiles/lava'),
             'player': load_image('Entities/player/idle/Pierre 1.png'),
-            'background': load_image('background.png'),
+            'background': load_image('background2.png'),
             'pause': load_image('pausemenu.png'),
             'clouds': load_images('clouds'),
             'player/idle': Animation(load_images('Entities/player/idle'),
