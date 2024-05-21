@@ -9,9 +9,9 @@ window = pygame.display.set_mode((1080, 1022))  # Creates game
 # window. screen = window
 pygame.display.set_caption("Pizza Pursuit: Chef's Revenge")
 
-bg = pygame.image.load("data/images/bg.png")  # Menu background.
-ss = pygame.image.load("data/Pizza.png")  # Splash Screen.
-
+background_img = pygame.image.load("data/images/bg.png")  # Menu background.
+splashscreen = pygame.image.load("data/Pizza.png")  # Splash Screen.
+tutorial_screen = pygame.image.load("data/images/tutorial.png")
 
 def get_font(size):
     return pygame.font.Font("data/PixelatedPusab.ttf", size)
@@ -20,7 +20,7 @@ def get_font(size):
 
 
 window.fill('white')
-window.blit(ss, (0, 0))  # Places background photo.
+window.blit(splashscreen, (0, 0))  # Places background photo.
 pygame.display.update()
 
 
@@ -70,33 +70,30 @@ def play():
         pygame.display.update()
 
 
-def options():
+def tutorial():
     while True:
         options_mouse_pos = pygame.mouse.get_pos()  # Takes mouse position
 
         window.fill(
             'white')  # Creates the illusion of multiple screens by filling screen with black
+        window.blit(tutorial_screen, (0, 0))
 
-        options_text = get_font(45).render("Options.", True, "Black")
-        options_rect = options_text.get_rect(center=(640, 260))
-        window.blit(options_text,
-                    options_rect)  # When options is pressed shows the word options.
 
-        options_back = Button(image=None, pos=(640, 460), text_input="Back",
+        tutorial_back = Button(image=None, pos=(640, 460), text_input="Back",
                               # Creates the back button when options is pressed
                               font=get_font(75), base_color="Black",
                               hovering_color="Green")
 
-        options_back.changeColor(
+        tutorial_back.changeColor(
             options_mouse_pos)  # Changes button colour if hovering over back button.
-        options_back.update(window)
+        tutorial_back.update(window)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if options_back.checkForInput(options_mouse_pos):
+                if tutorial_back.checkForInput(options_mouse_pos):
                     main_menu()
 
         pygame.display.update()
@@ -151,7 +148,7 @@ def main_menu():
 
         window.fill('black')
 
-        window.blit(bg, (0, 0))  # Places background photo.
+        window.blit(background_img, (0, 0))  # Places background photo.
 
         menu_mouse_pos = pygame.mouse.get_pos()  # Tracks mouse position.
 
@@ -195,7 +192,7 @@ def main_menu():
                 if play_button.checkForInput(menu_mouse_pos):
                     play()
                 if tutorial_button.checkForInput(menu_mouse_pos):
-                    options()
+                    tutorial()
                 if quit_button.checkForInput(menu_mouse_pos):
                     pygame.quit()
                     sys.exit()
