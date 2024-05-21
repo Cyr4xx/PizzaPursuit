@@ -110,11 +110,15 @@ class Tilemap:
 
         for x in range(offset[0] // self.tile_size,
                        (offset[0] + surf.get_width()) // self.tile_size + 1):
-            for y in range(offset[1] // self.tile_size, (offset[
-                                                             1] + surf.get_height()) // self.tile_size + 1):
+            for y in range(offset[1] // self.tile_size, (offset[1] + surf.get_height()) // self.tile_size + 1):
                 loc = str(x) + ';' + str(y)
                 if loc in self.tileMap:
                     tile = self.tileMap[loc]
-                    surf.blit(self.game.assets[tile['type']][tile['variant']],
-                              (tile['pos'][0] * self.tile_size - offset[0],
-                               tile['pos'][1] * self.tile_size - offset[1]))
+                    tile_type = tile['type']
+                    tile_variant = tile['variant']
+                    if tile_type in self.game.assets and 0 <= tile_variant < len(self.game.assets[tile_type]):
+                        surf.blit(self.game.assets[tile_type][tile_variant],
+                                  (tile['pos'][0] * self.tile_size - offset[0],
+                                   tile['pos'][1] * self.tile_size - offset[1]))
+                    else:
+                        print("Invalid tile type or variant:", tile_type, tile_variant)

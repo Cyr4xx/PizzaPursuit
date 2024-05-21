@@ -2,12 +2,13 @@ import sys
 
 import pygame
 
-from Scripts.Utils import load_images, load_images_tran
+from Scripts.Utils import load_images, load_images_tran, load_image_tran
 from Scripts.tilemap import Tilemap
 
 
 render_scale = 2.0
 level = 0
+
 
 class Editor: # Turns the game code into an object.
     def __init__(self):
@@ -22,11 +23,12 @@ class Editor: # Turns the game code into an object.
 
         self.assets = {
              'decor': load_images('tiles/decor'),
+             'fridge': load_images('tiles/Fridge'),
              'grass': load_images('tiles/grass'),
              'large_decor': load_images('tiles/large_decor'),
              'stone': load_images('tiles/stone'),
              'lava': load_images('tiles/lava'),
-             'food': load_images('tiles/food'),
+             'bread': load_images_tran('tiles/Bread'),
              'spawners': load_images('tiles/spawners')
         }  # Loads assets for many aspects of the game.
 
