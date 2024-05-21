@@ -1,1 +1,0 @@
-        self.scroll = [0, 0]

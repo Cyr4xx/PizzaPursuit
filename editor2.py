@@ -34,7 +34,7 @@ class Editor: # Turns the game code into an object.
         self.tileMap = Tilemap(self, tile_size=16)  # Loads tiles and sets size.
 
         try:
-            self.tileMap.load('data/maps/0.json') # Loads the level, if not found creates a new level.
+            self.tileMap.load('data/maps/1.json') # Loads the level, if not found creates a new level.
         except FileNotFoundError:
             pass
 
@@ -144,7 +144,7 @@ class Editor: # Turns the game code into an object.
                     if event.key == pygame.K_t:
                         self.tileMap.autotile() # T - auto places correct tile type.
                     if event.key ==pygame.K_o:
-                        self.tileMap.save('data/maps/0.json') # O - saves edited level.
+                        self.tileMap.save('data/maps/1.json') # O - saves edited level.
                         pygame.quit()
                     if event.key == pygame.K_LSHIFT:
                         self.shift = True # If left shift is clicked, scrolls through selected tile type.
