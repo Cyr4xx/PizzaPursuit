@@ -54,6 +54,18 @@ class Game:  # Turns the game code into an object.
                                      img_dur=6),
         }  # Loads assets for many aspects of the game.
 
+        self.sfx = {
+            'jump': pygame.mixer.Sound('data/sfx/jump.mp3'),
+            'shoot': pygame.mixer.Sound('data/sfx/shoot.mp3'),
+            'hit': pygame.mixer.Sound('data/sfx/hit.mp3')
+        }
+
+
+        self.sfx['jump'].set_volume(0.5)
+        self.sfx['shoot'].set_volume(0.3)
+        self.sfx['hit'].set_volume(0.7)
+
+
         self.clouds = Clouds(self.assets['clouds'], count=16)  # Prints clouds all over the background.
 
         self.player = Player(self, (50, 50), (8, 15))
@@ -98,8 +110,14 @@ class Game:  # Turns the game code into an object.
         for enemy in self.enemies:
             if player_rect.colliderect(enemy.rect()):
                 self.dead = 1  # Trigger death sequence
+                self.sfx['hit'].play()
 
     def run(self):
+        pygame.mixer.music.load('data/music.mp3')
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1)
+
+
         while True:
             if not self.pause:
                 self.display.blit(self.assets['background'], (0, 0))  # Renders background image.
@@ -156,6 +174,7 @@ class Game:  # Turns the game code into an object.
                         if self.player.rect().collidepoint(projectile[0]):
                             self.projectiles.remove(projectile)
                             self.dead += 1
+                            self.sfx['hit'].play()
                        #for i in range(30):
                            # angle = random.random() * math.pi * 2
                            # speed = random.random() * 5
@@ -196,7 +215,8 @@ class Game:  # Turns the game code into an object.
                     if event.key == pygame.K_d:
                         self.movement[1] = True
                     if event.key == pygame.K_w:
-                        self.player.jump()
+                        if self.player.jump():
+                            self.sfx['jump'].play()
                     if event.key == pygame.K_o:
                         from mainmenu import main_menu
                         self.screen = pygame.display.set_mode((1080, 1022))
