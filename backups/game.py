@@ -1,10 +1,7 @@
-import os
 import sys
 import math
 import pygame
 import random
-
-
 from Scripts.Utils import load_image, load_images, Animation, load_images_tran
 from Scripts.entities import PhysicsEntity, Player, Enemy, Tomato, Banana
 from Scripts.tilemap import Tilemap
@@ -12,32 +9,6 @@ from Scripts.clouds import Clouds
 from Scripts.particle import Particle
 from Scripts.sparks import Spark
 
-class Collectible:
-    def __init__(self, game, pos):
-        self.game = game
-        self.pos = pos
-        self.hitbox = pygame.Rect(pos[0], pos[1], 16, 16)  # Define hitbox for the bread
-        self.collected = False  # Initialize collected flag
-
-    def render(self, display, offset=(0, 0)):
-        if not self.collected:  # Render only if not collected
-            display.blit(self.game.assets['bread'][0], (self.pos[0] - offset[0], self.pos[1] - offset[1]))
-
-    def update(self):
-        player_rect = self.game.player.rect()
-        if not self.collected and player_rect.colliderect(self.hitbox):
-            self.collected = True  # Mark as collected if player collides with it
-            self.game.score += 10  # Increase score by 10 when player collides with bread
-
-class Fridge:
-    def __init__(self, game, pos):
-        self.game = game
-        self.pos = pos
-        self.hitbox = pygame.Rect(pos[0], pos[1], 32, 32)  # Fridge hitbox size
-
-    def update(self):
-        # Add logic to update the fridge position or state if needed
-        pass
 
 class Game:  # Turns the game code into an object.
     def __init__(self):
@@ -48,12 +19,9 @@ class Game:  # Turns the game code into an object.
         self.display = pygame.Surface((320, 240))
         self.timer = pygame.time.Clock()  # Restricts framerate to a fixe amount. clock = timer
         self.movement = [False, False]
-
         self.assets = {
              'decor': load_images('tiles/decor'),
              'grass': load_images('tiles/grass'),
-             'bread': load_images_tran('tiles/Bread'),
-             'fridge': load_images_tran('tiles/fridge'),
              'large_decor': load_images('tiles/large_decor'),
              'stone': load_images('tiles/stone'),
              'lava': load_images('tiles/lava'),
@@ -98,27 +66,8 @@ class Game:  # Turns the game code into an object.
         self.player = Player(self, (50, 50), (8, 15))
         # Creates the player.
         self.tileMap = Tilemap(self, tile_size=16)  # Loads all tiles and the level.
-        self.level = 0
-        self.load_level(self.level)
+        self.load_level(0)
         self.pause = False
-        self.fridge = Fridge(self, (100, 100))
-        self.score = 0  # Initialize score variable
-        self.transition_timer = 0  # Initialize transition timer
-
-        # Load font for displaying score
-        self.font = pygame.font.Font(None, 36)
-        self.font_color = (255, 255, 255)  # White color
-
-    def check_collision_with_fridge(self):
-        player_rect = self.player.rect()
-        if player_rect.colliderect(self.fridge.hitbox):
-            self.transition_timer += 1  # Increment transition timer when player collides with fridge
-            if self.transition_timer > 30:  # If transition timer exceeds 30 frames
-                self.level = min(self.level + 1, len(os.listdir(
-                    'data/maps')) - 1)  # Move to the next level
-                self.load_level(self.level)  # Load the next level
-                self.transition_timer = 0  # Reset transition timer
-
     def load_level(self, map_id):
         self.tileMap.load('data/maps/' + str(map_id) + '.json')
         self.enemies = []
@@ -141,20 +90,8 @@ class Game:  # Turns the game code into an object.
         self.projectiles = []
         self.particles = []
         self.sparks = []
-
-        self.collectibles = []  # List to hold collectible bread instances
-
-        for bread_spawn in self.tileMap.extract([('bread', 0)]):
-            self.collectibles.append(Collectible(self, bread_spawn['pos']))
-
-
-
-        # code to create a fridge instance at position (100, 100)
-
         self.scroll = [0, 0]  # Creating Camera to follow player
         self.dead = 0
-        self.transition = -30
-
     def check_collision_with_enemies(self):
         player_rect = self.player.rect()
         for enemy in self.enemies:
@@ -169,30 +106,12 @@ class Game:  # Turns the game code into an object.
 
 
         while True:
-
             if not self.pause:
                 self.display.blit(self.assets['background'], (0, 0))  # Renders background image.
-
-            if not len(self.enemies):
-                self.transition += 1
-                if self.transition > 30:
-                    self.level = min(self.level + 1,
-                                     len(os.listdir('data/maps')) - 1) # Caps the amount of maps to min, so the list doesnt reach over the amount of maps.
-                    self.load_level(self.level)
-            if self.transition < 0:
-                self.transition += 1
-
-            self.check_collision_with_fridge()
-
             if self.dead:
                 self.dead += 1
-                if self.dead >= 10:
-                    self.transition = min(30, self.transition + 1)
                 if self.dead > 40:
-                    self.load_level(self.level)
-
-
-
+                    self.load_level(0)
             self.scroll[0] += (self.player.rect().centerx - self.display.get_width() / 2 - self.scroll[0]) / 30
             self.scroll[1] += (self.player.rect().centery - self.display.get_height() / 2 - self.scroll[1]) / 30 # Allows scrolling of the camera.
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
@@ -305,24 +224,6 @@ class Game:  # Turns the game code into an object.
                         self.movement[0] = False
                     if event.key == pygame.K_a:
                         self.movement[1] = False
-
-                for collectible in self.collectibles.copy():
-                    collectible.render(self.display, offset=render_scroll)
-                    collectible.update()
-                    if self.player.rect().colliderect(collectible.hitbox):
-                        self.score += 10
-                        self.collectibles.remove(collectible)
-
-            # Render score ribbon
-            self.display.blit(self.font.render(f"Score: {self.score}", True,
-                                             self.font_color), (10, 10))
-
-            if self.transition:
-                transition_surf = pygame.Surface(self.display.get_size())
-                pygame.draw.circle(transition_surf, (255, 255, 255), (self.display.get_width() // 2, self.display.get_height() // 2), (30 - abs(self.transition)) * 8)
-                transition_surf.set_colorkey((255, 255, 255))
-                self.display.blit(transition_surf, (0, 0))
-
             self.screen.blit(
                 pygame.transform.scale(self.display, self.screen.get_size()),
                 (0, 0))
