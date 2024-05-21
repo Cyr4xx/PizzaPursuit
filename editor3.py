@@ -21,12 +21,13 @@ class Editor: # Turns the game code into an object.
         self.timer = pygame.time.Clock()  # Restricts framerate to a fixe amount. clock = timer
 
         self.assets = {
-             'decor': load_images('tiles/decor'),
-             'grass': load_images('tiles/grass'),
-             'large_decor': load_images('tiles/large_decor'),
-             'stone': load_images('tiles/stone'),
-             'food': load_images('tiles/food'),
-             'spawners': load_images('tiles/spawners')
+            'decor': load_images('tiles/decor'),
+            'grass': load_images('tiles/grass'),
+            'large_decor': load_images('tiles/large_decor'),
+            'stone': load_images('tiles/stone'),
+            'lava': load_images('tiles/lava'),
+            'food': load_images('tiles/food'),
+            'spawners': load_images('tiles/spawners')
         }  # Loads assets for many aspects of the game.
 
         self.movement = [False, False, False, False] # Controls editor movement by setitng values to true when a key si pressed.

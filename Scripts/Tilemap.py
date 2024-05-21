@@ -16,7 +16,7 @@ AUTOTILE_MAP = {
 
 NEIGHBOR_OFFSETS = [(-1, 0), (-1, -1), (0, -1), (1, -1), (1, 0), (0, 0),
                     (-1, 1), (0, 1), (1, 1)]
-PHYSICS_TILES = {'grass', 'stone'}
+PHYSICS_TILES = {'grass', 'stone', 'lava'}
 AUTOTILE_TYPES = {'grass', 'stone'}
 
 
