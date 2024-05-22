@@ -213,6 +213,7 @@ class Game:  # Turns the game code into an object.
                     self.transition = min(30, self.transition + 1)
                 if self.dead > 40:
                     self.load_level(self.level)
+                    self.score = 0
 
 
 
