@@ -27,7 +27,7 @@ class Editor: # Turns the game code into an object.
             'large_decor': load_images('tiles/large_decor'),
             'stone': load_images('tiles/stone'),
             'lava': load_images('tiles/lava'),
-            'food': load_images('tiles/food'),
+            'bread': load_images_tran('tiles/Bread'),
             'spawners': load_images('tiles/spawners')
         }  # Loads assets for many aspects of the game.
 

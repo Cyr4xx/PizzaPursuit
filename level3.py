@@ -188,7 +188,7 @@ class Game:  # Turns the game code into an object.
 
             if not self.pause:
 
-                    self.display.blit(self.assets['background2'], (0, 0))  # Renders background image.
+                    self.display.blit(self.assets['background3'], (0, 0))  # Renders background image.
 
             if not len(self.enemies):
                 self.transition += 1
