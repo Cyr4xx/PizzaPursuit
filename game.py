@@ -59,6 +59,8 @@ class Game:  # Turns the game code into an object.
              'lava': load_images('tiles/lava'),
              'player': load_image('Entities/player/idle/Pierre 1.png'),
              'background': load_image('background.png'),
+             'background2': load_image('background2.png'),
+             'background3': load_image('background3.png'),
              'pause': load_image('pausemenu.png'),
              'clouds': load_images('clouds'),
              'player/idle': Animation(load_images('Entities/player/idle'), img_dur=12),
@@ -185,11 +187,14 @@ class Game:  # Turns the game code into an object.
         while True:
             if self.level == 1:
                 self.fridge = Fridge(self, (920.5, -363.0))
+                self.display.blit(self.assets['background2'], (0, 0))
             elif self.level == 2:
                 self.fridge = Fridge(self, (3461.5, -763.5))
+                self.display.blit(self.assets['background3'], (0, 0))
 
             if not self.pause:
-                self.display.blit(self.assets['background'], (0, 0))  # Renders background image.
+                if self.level == 0:
+                    self.display.blit(self.assets['background'], (0, 0))  # Renders background image.
 
             if not len(self.enemies):
                 self.transition += 1
@@ -220,8 +225,9 @@ class Game:  # Turns the game code into an object.
                 self.particles.append(
                         Particle(self, 'leaf', pos, velocity=[-0.3, 0.2], frame=random.randint(0, 20))) # Spawns the particles and dictates the Velocity, timing, position and type.
             if not self.pause:
-                self.clouds.update()
-                self.clouds.render(self.display, offset=render_scroll)
+                if self.level == 0:
+                    self.clouds.update()
+                    self.clouds.render(self.display, offset=render_scroll)
                 self.tileMap.render(self.display, offset=render_scroll)
                 for enemy in self.enemies.copy():
                     kill = enemy.update(self.tileMap, (0, 0))

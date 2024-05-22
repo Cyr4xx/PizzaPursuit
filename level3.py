@@ -27,6 +27,7 @@ class Game:  # Turns the game code into an object.
         self.assets = {
             'decor': load_images_tran('tiles/decor'),
             'grass': load_images('tiles/grass'),
+            'fridge': load_images('tiles/Fridge'),
             'large_decor': load_images('tiles/large_decor'),
             'stone': load_images('tiles/stone'),
             'lava': load_images('tiles/lava'),

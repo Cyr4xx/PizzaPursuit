@@ -29,6 +29,7 @@ class Game:  # Turns the game code into an object.
             'grass': load_images('tiles/grass'),
             'large_decor': load_images('tiles/large_decor'),
             'stone': load_images('tiles/stone'),
+            'fridge': load_images('tiles/Fridge'),
             'lava': load_images('tiles/lava'),
             'player': load_image('Entities/player/idle/Pierre 1.png'),
             'background': load_image('background2.png'),
