@@ -101,7 +101,7 @@ class Game:  # Turns the game code into an object.
         self.level = 0
         self.load_level(self.level)
         self.pause = False
-        self.fridge = Fridge(self, (100, 100))
+        self.fridge = Fridge(self, (730.0, -474.5))
         self.score = 0  # Initialize score variable
         self.transition_timer = 0  # Initialize transition timer
 
