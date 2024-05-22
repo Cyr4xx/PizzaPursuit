@@ -79,10 +79,10 @@ def tutorial():
         window.blit(tutorial_screen, (0, 0))
 
 
-        tutorial_back = Button(image=None, pos=(640, 460), text_input="Back",
+        tutorial_back = Button(image=None, pos=(980, 120), text_input="Back",
                               # Creates the back button when options is pressed
-                              font=get_font(75), base_color="Black",
-                              hovering_color="Green")
+                              font=get_font(75), base_color="Green",
+                              hovering_color="White")
 
         tutorial_back.changeColor(
             options_mouse_pos)  # Changes button colour if hovering over back button.
