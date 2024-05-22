@@ -101,7 +101,9 @@ class Game:  # Turns the game code into an object.
         self.level = 0
         self.load_level(self.level)
         self.pause = False
-        self.fridge = Fridge(self, (730.0, -474.5))
+        if self.level == 0:
+            self.fridge = Fridge(self, (730.0, -474.5))
+
         self.score = 0  # Initialize score variable
         self.transition_timer = 0  # Initialize transition timer
 
@@ -181,6 +183,10 @@ class Game:  # Turns the game code into an object.
             pygame.mixer.music.play(-1)
 
         while True:
+            if self.level == 1:
+                self.fridge = Fridge(self, (920.5, -363.0))
+            elif self.level == 2:
+                self.fridge = Fridge(self, (3461.5, -763.5))
 
             if not self.pause:
                 self.display.blit(self.assets['background'], (0, 0))  # Renders background image.
